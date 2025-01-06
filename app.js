@@ -247,7 +247,8 @@ app.get("*", function (req, res) {
         message: "404 Page Not Found!"
     })
 })
-const PORT = process.env.PORT || 3000;
+
+const PORT = process.env.PORT || 3000; // Use environment variable or default to 3000
 app.listen(PORT, () => {
     console.log(`Server connected on port ${PORT}`);
 });

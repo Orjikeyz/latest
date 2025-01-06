@@ -4,7 +4,7 @@ const connection = mysql.createConnection({
     user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD || "",
     database: process.env.DB_NAME || "xcodehubproject_db",
-    port: process.env.DB_PORT || 3306,
+    port: process.env.DB_PORT || 3000,
 })
 // global.user_id = "xcode"
 

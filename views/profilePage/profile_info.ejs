@@ -1,0 +1,176 @@
+<%- include('../layouts/header.ejs') %>
+
+<style>
+    body {
+        background: url(./images/wrapp.avif);
+        background: white;
+    }
+
+    .profile-container .profile-image {
+        text-align: center;
+    }
+
+    .profile-container .profile-image img {
+        border-radius: 100%;
+        border: 3px solid white;
+        outline: 1px solid #88c8f765;
+    }
+
+    .photo_camera {
+        margin: 0 50%;
+        transform: translateX(-50%);
+        border-radius: 100%;
+        transform: translate(20px, -25px);
+        border: 3px solid white;
+        outline: 1px solid #88c8f765;
+        background-color: white;
+        color: #5655559d;
+        position: absolute;
+    }
+
+    .form-container form label {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    .form-container form {
+        padding: 10px;
+        font-family: Mulish;
+    }
+
+    .form-container form input,
+    textarea {
+        display: block;
+        padding: 18px 30px;
+        border-radius: 10px;
+        color: #3d3d3d;
+        border: 1px solid #1933642e;
+        outline: none;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .form-container form button {
+        width: 100%;
+        padding: 18px 10px;
+        border-radius: 10px;
+        border: 1px solid #1933642e;
+        outline: none;
+        background-color: #193364;
+        color: orange;
+        font-size: 15px;
+        font-weight: bolder;
+    }
+</style>
+
+<div style="padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+    <a href="/profilePage/profile"><span class="material-symbols-outlined">chevron_left</span></a>
+    <span><b>Edit Profile</b></span>
+    <span></span>
+</div>
+
+<div class="profile-container">
+    <div class="profile-image">
+        <!-- <img src="../images/istockphoto-1072528872-612x612.jpg" id="profileImageData" width="120px" height="120px" loading="lazy"> -->
+        <img src="/profile_uploads/<%= getProfileInfoitems.profile_image %>" id="profileImageData" width="120px" height="120px" loading="lazy">
+    </div>
+    <label for="profile_image"><span class="material-symbols-outlined photo_camera">photo_camera</span></label>
+    <input type="file" hidden name="file" id="profile_image" accept=".jpg,.jpeg,.png, .PNG, .JPEG" onchange="previewImage(this)" required>
+
+    <div class="form-container">
+        <form action="" method="post">
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" value="<%= getProfileInfoitems.first_name%>" required>
+
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" value="<%= getProfileInfoitems.last_name%>" required>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" value="<%= getProfileInfoitems.email%>" required>
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" readonly value="<%= getProfileInfoitems.username%>"
+                required>
+
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" value="<%= getProfileInfoitems.address%>" required>
+
+            <label for="city">City</label>
+            <input type="text" id="city" name="city" value="<%= getProfileInfoitems.city%>" required>
+
+            <label for="state">State</label>
+            <input type="text" id="state" name="state" value="<%= getProfileInfoitems.state%>" required>
+
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" value="<%= getProfileInfoitems.country%>" required>
+
+            <label for="tel">Tel</label>
+            <input type="text" id="tel" name="tel" value="<%= getProfileInfoitems.phone%>" required>
+
+            <label for="bio">Bio</label>
+            <textarea id="bio" name="bio"><%= getProfileInfoitems.bio%></textarea>
+
+            <label for="business_name">Business Name</label>
+            <input type="text" id="business_name" name="business_name" value="<%= getProfileInfoitems.business_name%>"
+                required>
+
+            <label for="business_address">Business Address</label>
+            <input type="text" id="business_address" name="business_address"
+                value="<%= getProfileInfoitems.business_address%>" required>
+
+
+            <button type="button" onclick="updateData()">Save Changes</button>
+        </form>
+    </div>
+</div>
+<script>
+    let profileImageData = document.getElementById("profileImageData")
+    let profile_image = document.getElementById("profile_image")
+
+    function previewImage(input) {
+        let file = input.files[0]
+        profileImageData.src = URL.createObjectURL(file)
+        console.log(URL.createObjectURL(file))
+    }
+
+    function updateData() {
+    let formData = new FormData();
+    formData.append('first_name', document.getElementById("first_name").value);
+    formData.append('last_name', document.getElementById("last_name").value);
+    formData.append('email', document.getElementById("email").value);
+    formData.append('address', document.getElementById("address").value);
+    formData.append('city', document.getElementById("city").value);
+    formData.append('state', document.getElementById("state").value);
+    formData.append('country', document.getElementById("country").value);
+    formData.append('tel', document.getElementById("tel").value);
+    formData.append('bio', document.getElementById("bio").value);
+    formData.append('business_name', document.getElementById("business_name").value);
+    formData.append('business_address', document.getElementById("business_address").value);
+
+    let file = profile_image.files[0]
+    if (!file) {
+        file = `<%= getProfileInfoitems.profile_image%>`
+        formData.append("existing_file", file)
+    }else {
+        formData.append("file", profile_image.files[0])
+    }
+
+    let url = "/profilePage/UpdateprofileInfo";
+    fetch(url, {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === "Error") {
+            swal(`${data.status}`, `${data.message}`, `warning`);
+        } else if (data.status === 'Success') {
+            swal(`${data.status}`, `${data.message}`, `success`);    
+            setTimeout(() => {
+                window.location.href = '/profilePage/profile'
+            }, 1500);                
+        }
+    });
+}
+</script>
+<%- include('../layouts/footer.ejs') %>

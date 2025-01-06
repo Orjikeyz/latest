@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Report Issue</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+    integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <style>
+    /* Reset CSS */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    .report-page {
+      padding: 50px 0;
+      background-color: #fff;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .title {
+      font-size: 36px;
+      color: #333;
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+    }
+
+    .report-form {
+      background-color: #f9f9f9;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      color: #333;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+    }
+
+    .btn-submit {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      padding: 15px 20px;
+      font-size: 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 30px;
+      }
+
+      .form-group label {
+        font-size: 16px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        font-size: 14px;
+      }
+
+      .btn-submit {
+        font-size: 16px;
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <section class="report-page">
+    <div style="padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+      <a href="/profilePage/profile"><span class="material-symbols-outlined"
+          style="font-weight: bold;">chevron_left</span></a>
+      <span></span>
+    </div>
+    <div class="container">
+      <h1 class="title">Report an Issue</h1>
+
+      <form class="report-form">
+        <div class="form-group">
+          <label for="name">Your Full Name:</label>
+          <input type="text" id="full_name" name="name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Your Email:</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="issue-type">Issue Type:</label>
+          <select id="issue_type" name="issue_type" required>
+            <option value="">Select an option</option>
+            <option value="technical">Technical Issue</option>
+            <option value="billing">Billing Issue</option>
+            <option value="account">Account Issue</option>
+            <option value="feedback">Feedback/Suggestion</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Issue Description:</label>
+          <textarea id="description" name="description" rows="5" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <button type="button" onclick="processData()" class="btn-submit">Submit Report</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    var full_name = document.getElementById("full_name")
+    var email = document.getElementById("email")
+    var issue_type = document.getElementById("issue_type")
+    var description = document.getElementById("description")
+
+    function processData() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      if (full_name.value === "" || email.value === "" || issue_type.value === "" || description.value === "") {
+        swal("ERROR", "Input's cannot be empty.", "warning")
+      } else if (!emailRegex.test(email.value)) {
+        swal("ERROR", "Please enter a valid email address.", "warning")
+      } else {
+        processData()
+      }
+
+      function processData() {
+        const dataRequest = {
+          full_name: full_name.value,
+          email: email.value,
+          issue_type: issue_type.value,
+          description: description.value
+        }
+
+        let url = "/profilePage/reportRequest";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(dataRequest)
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === "Error") {
+              swal(`${data.status}`, `${data.message}`, `warning`);
+            } else if (data.status === 'Success') {
+              swal(`${data.status}`, `${data.message}`, `success`);
+              setTimeout(() => {
+                window.location.href = '/profilePage/profile'
+              }, 1500);
+            }
+
+          })
+      }
+    }
+  </script>
+</body>
+
+</html>

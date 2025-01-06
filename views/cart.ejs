@@ -1,0 +1,168 @@
+<%- include('./layouts/header.ejs') %>
+
+<style>
+    .cart-items {
+        background: var(--light-white);
+        padding: 10px;
+        margin: 10px 3%;
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px #ededed;
+    }
+
+    .cart-container button {
+        padding: 10px;
+        width: 94%;
+        margin: 0 3%;
+        border: none;
+        background: var(--green);
+        color: var(--light-white);
+    }
+
+    .cart-items-content {
+        display: flex;
+        align-items: center;
+    }
+
+    .addMinus {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    .addMinus button {
+        padding: 5px 10px;
+        font-size: 12px;
+        margin: 5px;
+        font-weight: bold;
+        /* box-shadow: 1px 1px 5px #ededed; */
+        border-radius: 3px;
+        border: 1px solid #ededed;
+        color: #2e2f2f;
+        background-color: var(--light-white);
+    }
+
+    .price-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+</style>
+
+<div style="padding: 10px; display: flex; justify-content: space-between;">
+    <a href="/"><span class="material-symbols-outlined">keyboard_arrow_left</span></a>
+    <h5 style="margin: 10px 15px;">My Cart</h5>
+</div>
+
+
+<div class="cart-container">
+    <img src="/images/empty_cart.gif" id="empty_cart_image" width="100%" style="display: none;">
+    <% getProductCarts.forEach(getProductCart => { 
+        const productImages = JSON.parse(getProductCart.image_urls)[0]
+    %>
+    <div class="cart-items">
+        <div class="cart-items-content">
+            <article style="background-color: #f8f7f7; border-radius: 5px;">
+                <img src="/uploads/<%= productImages %>" width="100px" height="100px">
+            </article>
+
+            <article style="padding: 10px 20px;">
+                <p style="font-size: 13px; display: flex; justify-content: space-between;">
+                    <span><%= getProductCart.category %></span>
+                    <span>ID: #<%= getProductCart.ref_id %></span>
+                </p>
+                <h4
+                    style="margin: 5px 0; font-size: 13px; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">
+                    <%= getProductCart.name %></h4>
+                <p
+                    style="font-size: 13px; margin: 5px 0; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; ">
+                    <%- getProductCart.description %></p>
+                <p style="font-size: 13px;">Vendor: <span style="color: var(--blue);">@<a
+                            href="/vendors_profile/<%= getProductCart.posted_by%>"
+                            class="posted_by"><%= getProductCart.posted_by %></a></span>
+                </p>
+            </article>
+        </div>
+        <div class="price-container">
+            <div class="addMinus" style="margin: 0 20%; transform: translateX(30px);">
+                <button class="minusBtn" style="padding: 5px 11px;">-</button>
+                <button class="quantityValue"><%= getProductCart.quantity %></button>
+                <button class="plusBtn">+</button>
+            </div>
+            <p style="font-weight: bold;"><span class="currencyText"><%= getProductCart.currency %></span><span
+                    class="product_price"><%= getProductCart.cart_price %></span></p>
+            <p class="current_price" style="display: none;"><%= getProductCart.price %></p>
+            <p class="cart_id" style="display: none;"><%= getProductCart.cart_id %></p>
+            <p class="product_id" style="display: none;"><%= getProductCart.id %></p>
+        </div>
+        <p style="text-align: right;"><span class="material-symbols-outlined deleteBtn"
+                style="font-size: 15px;">delete</span>
+        </p>
+    </div>
+    <% }) %>
+
+    <div id="footer-cart">
+        <p style="text-align: right; font-weight: bold; padding: 10px;">Total: <span id="currencyText2">12</span><span
+                id="totalPrice">0</span></p>
+        <button onclick="whatsappOrderBtn()">Order</button>
+    </div>
+</div>
+
+
+<script>
+    var getProductCarts;
+    function whatsappOrderBtn() {
+        const cartData = {
+            posted_by: "xcode"
+        };
+        fetch("/cart/xcode", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(cartData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                getProductCarts = data.getProductCarts
+                console.log(getProductCarts)
+
+                whatsappData()
+            })
+    }
+
+    function whatsappData() {
+        const tel = "+2349012527321";
+        let message = "*Order Details:* %0A%0A ";
+        let totalPrice = 0;
+
+        // Sum and build the message
+        getProductCarts.forEach(getProductCart => {
+            let x = getProductCart.cart_price;
+            totalPrice += x;
+            message += `*Product ID: %23${getProductCart.ref_id}* %0A%0A Product Name: ${getProductCart.name} %0A%0A Price:
+${getProductCart.currency}${getProductCart.price} %0A%0A Quantity: ${getProductCart.quantity} %0A%0A Total Price:
+${getProductCart.currency}${getProductCart.cart_price} %0A%0A Description: ${getProductCart.description}`;
+            message += "%0A __________________%0A %0A ";
+        });
+
+        // Add total price
+        message += `*Grand Total Price:* ${getProductCarts[0].currency}${totalPrice} %0A`;
+
+        // WhatsApp URL with the message
+        const whatsappUrl = `https://wa.me/${tel}?text=${message}`;
+
+            window.location.href = whatsappUrl;
+    }
+</script>
+
+
+
+
+<%- include('./layouts/footer.ejs') %>
+<script src="/assets/cart.js"></script>
+</body>
+
+</html>

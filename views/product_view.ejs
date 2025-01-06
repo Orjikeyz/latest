@@ -1,0 +1,166 @@
+<%- include('./layouts/header.ejs') %>
+<style>
+    .product-content {
+        padding: 10px;
+        background-color: var(--light-white);
+        line-height: 30px;
+    }
+
+    .rating-icon {
+        display: flex;
+        margin: 10px 0;
+        color: #ffa500;
+        align-items: center;
+    }
+
+    .product-text-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .addMinus {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .addMinus button {
+        padding: 5px 10px;
+        font-size: 18px;
+        margin: 5px;
+        font-weight: bold;
+        box-shadow: 1px 1px 5px #ededed;
+        border-radius: 3px;
+        border: none;
+        background-color: var(--light-white);
+        color: #2e2f2f;
+    }
+
+    .product-description {
+        background-color: var(--light-white);
+        padding: 5px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+
+    .orderBtn {
+        width: 100%;
+        padding: 15px 10px;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+        margin: 5px 0;
+        background-color: var(--green);
+        color: var(--light-white);
+    }
+
+    .search-container {
+        display: none;
+    }
+</style>
+<div style="padding: 10px 10px 10px 0px; display: flex; justify-content: space-between;">
+    <a href="/"><span class="material-symbols-outlined">keyboard_arrow_left</span></a>
+</div>
+<div class="product-container">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
+
+    <style>
+        body {
+            background: white;
+        }
+        .swiper-container {
+            width: 100%;
+            height: auto;
+            overflow-x: hidden;
+            padding: 10px;
+        }
+    
+        .swiper-slide {
+            text-align: center;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+    
+        .swiper-pagination-bullet-active {
+            background-color: #007bff;
+        }
+
+    </style>
+    
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <% const product_images = JSON.parse(getProductitems.image_urls); %>
+            <% product_images.forEach(product_image => { %>
+                <div class="swiper-slide">
+                    <img src="/uploads/<%= product_image %>" loading="lazy">
+                </div>
+            <% }) %>
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination" style="bottom: none; position: relative; padding: 10px 0;"></div>
+    </div>
+
+    <div class="product-content">
+        <div class="product-text-content">
+            <article>
+                <h3 id="product_name"><%= getProductitems.name %></h3>
+                <p id="vendors_phone_number" style="display: none;"><%= getProductitems.phone %></p>
+                <p>Product ID: <span id="ref_id">#<%= getProductitems.ref_id %></span></p>
+                <div class="rating-icon">
+                    <!-- <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons" style="color: #faeacd">star</span>
+                    <span class="material-icons" style="color: #faeacd">star</span>
+                    <span style="padding: 0 10px; color: var(--text);">(23)</span> -->
+                </div>
+                <p>posted by: <span style="color: var(--blue);">@<a href="/vendors_profile/<%= getProductitems.posted_by %>" id="posted_by"><%= getProductitems.posted_by %></a></span></p>
+                <p style="font-size: 25px; margin: 15px 0;"><span id="currency"><%= getProductitems.currency%></span><span id="product_price"><%= getProductitems.price%></span></p>
+            </article>
+            <article>
+                <span class="material-icons"
+                    style="color: #ffa500; background: white ;border: 1px solid #ffa500; border-radius: 100%; padding: 14px; transform: translateX(40px);">bookmark</span>
+                <div class="addMinus">
+                    <button onclick="minusButton(1)" style="padding: 5px 13px;">-</button>
+                    <button id="quantityValue">1</button>
+                    <button onclick="plusButton(1)">+</button>
+                </div>
+            </article>
+        </div>
+        <div class="product-properties">
+            <div class="product-description">
+                <h3>Description</h3>
+                <p id="product_description"><%- getProductitems.description %></p>
+            </div>
+            <div style="display: flex; align-items: center;">
+                <p style="display: none;" id="product_id"><%= product_id %></p>
+                <button class="orderBtn" style="background: #ffa500; width: 40%; margin: 0 4px; font-size: 11px;" onclick="addToCart()">Add To Cart</button>
+                <button class="orderBtn" style="font-size: 11px;" onclick="whatsappOrder()">Whatsapp Order</button>
+                <button class="orderBtn" style="background: var(--blue); width: 20%; margin: 0 2px;"><a href="tel:<%= getProductitems.phone%>"><span class="material-symbols-outlined" style="font-size: 11px;">phone</span></a></button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<script src="/assets/product.js"></script>
+
+<%- include('./layouts/footer.ejs') %>

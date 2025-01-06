@@ -1,0 +1,139 @@
+<%- include('./layouts/header.ejs') %>
+
+<style>
+    .profile-image img {
+        border-radius: 50%;
+        transform: translateY(20px);
+        border: 2px solid white;
+    }
+
+    .profile-image {
+        text-align: center;
+    }
+
+    #edit-icon {
+        color: #55c8ff;
+        border-radius: 50%;
+        background: #e3f6ff;
+        padding: 5px;
+        transform: translateY(-5px);
+        border: 2px solid white;
+    }
+
+    .search-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .search-container input {
+        padding: 10px 5px;
+        box-shadow: none;
+        padding-left: 30px;
+        color: var(--black);
+        width: 100%;
+        line-height: 0;
+        margin-bottom: -5px;
+    }
+
+    .search-container .tune {
+        margin: 0 5px;
+        background: #ffffff;
+        padding: 3px 5px;
+        border-radius: 5px;
+    }
+
+    .search-container .search {
+        font-size: 15px;
+        position: absolute;
+        transform: translate(5px, 3px);
+    }
+
+    .search-result {
+        background-color: var(--light-white);
+        padding: 10px;
+        margin: 0 50%;
+        transform: translate(-50%);
+        width: 95%;
+        font-size: 12px;
+        display: none;
+        line-height: 20px;
+        transition: 0.5s ease all;
+    }
+</style>
+
+<body>
+    <div class="search-container">
+        <span class="material-symbols-outlined search">search</span>
+        <input type="text" placeholder="Search" id="searchInput">
+        <!-- <span class="material-symbols-outlined tune">tune</span> -->
+    </div>
+    <div class="search-result">
+        <p class="searchResultList"></p>
+    </div>
+    <div class="products-container">
+        <div class="products-item-container">
+            <% allProducts.forEach(allProduct => { 
+                    const allProductImage = JSON.parse(allProduct.image_urls)[0]
+                %>
+            <article>
+                <a href="product_view/<%= allProduct.id %>">
+                    <img src="./uploads/<%= allProductImage %>" loading="lazy" width="100%" height="150px"
+                        style="border-radius: 5px; padding: 10px 0;">
+                    <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">
+                        <span>Vendor: <a href="/vendors_profile/<%= allProduct.posted_by%>"
+                                style="color: var(--blue);">@<%= allProduct.posted_by%></a></span>
+                    </p>
+                    <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">Category: <a
+                            href=""><%= allProduct.category%></a></p>
+                    <p style="font-size: 12px; line-height: 15px; font-weight: bold;"><%= allProduct.name%></p>
+                    <div
+                        style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 12px; align-items: center;">
+                        <p style="margin: 0;  font-size: 12px;"><%= allProduct.currency+""+allProduct.price %></p>
+                        <span style="font-size: 10px;">ID: #<%= allProduct.ref_id %></span>
+                    </div>
+                </a>
+            </article>
+            <% }) %>
+
+        </div>
+    </div>
+    <script>
+        let searchInput = document.querySelector('#searchInput')
+        let searchResultList = document.querySelector(".searchResultList")
+        let search_result = document.querySelector('.search-result')
+
+        function searchHandler() {
+            let searchValue = searchInput.value
+            const url = "/searchQuery"
+            const inputData = {
+                query: searchValue
+            }
+            fetch(url, {
+                    method: "POST",
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(inputData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    searchResultList.innerHTML = ""
+                    if (data.length === 0) {
+                        search_result.style.display = 'block'
+                        searchResultList.innerHTML = "<p style='text-align: center'>No Data Available</p>"
+                    } else {
+                        data.forEach(value => {
+                            search_result.style.display = 'block'
+                            const resultItem = `<p><a href='product_view/${value.id}'>${value.name}</a></p>`
+                            searchResultList.innerHTML += resultItem
+                        });
+                    }
+                })
+        }
+        searchInput.addEventListener("keyup", searchHandler)
+        searchInput.addEventListener("input", searchHandler)
+    </script>
+    <%- include('./layouts/footer.ejs') %>

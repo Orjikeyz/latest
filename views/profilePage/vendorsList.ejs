@@ -1,0 +1,36 @@
+<%- include("../layouts/header.ejs")%>
+
+<div class="vendor-container">
+    <ul class="detail-list">
+        <li>  <a href="/profilePage/profile"><span class="material-symbols-outlined" style="font-weight: bold;">chevron_left</span></a>
+        </li>
+        <li><b>Vendors</b></li>
+    </ul>
+    <div class="vendor-container-list">
+        <% if (getAllVendorsItems.length <= 0) { %>
+            <p style="text-align: center; padding: 10px 0;">No data available</p>
+        <% }else {
+            getAllVendorsItems.forEach(getAllVendorsItem => {
+        %>
+            <article>
+            <div class="vendor-content" style="display: flex;">
+                <img src="/profile_uploads/<%= getAllVendorsItem.profile_image %>" width="100px" height="100px">
+                <div>
+                    <p>Username: <span style="color: var(--blue); font-weight: bold;"><a href="/vendors_profile/<%= getAllVendorsItem.username %>">@<%= getAllVendorsItem.username %></a></span></p>
+                    <p style="text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; width: 180px;">Business Name: <%= getAllVendorsItem.business_name %> </p>
+                    <p>Items: <%= getAllVendorsItem.total_products %></p>
+                    <a href="/vendors_profile/<%= getAllVendorsItem.username %>"><button>View Profile</button></a>
+                </div>
+            </div>
+            <p style="text-align: center;">
+                <% if (getAllVendorsItem.vendor_status === "approved") {%>
+                    <span class="material-symbols-outlined" style="font-size: 16px; color: var(--green);">verified</span>
+                <%}%><br>
+                <span style="position: relative; top: 30px;">ID: #<%= getAllVendorsItem.user_id %></span>
+            </p>
+        </article>
+        <%})}%>
+    </div>
+</div>
+
+<%- include("../layouts/footer.ejs")%>

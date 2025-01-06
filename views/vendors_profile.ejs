@@ -1,0 +1,149 @@
+<%- include('./layouts/header.ejs') %>
+
+<style>
+    .profile-image img {
+        border-radius: 50%;
+        transform: translateY(20px);
+        border: 2px solid white;
+    }
+
+    .profile-image {
+        text-align: center;
+    }
+
+    #edit-icon {
+        color: #55c8ff;
+        border-radius: 50%;
+        background: #e3f6ff;
+        padding: 5px;
+        transform: translateY(-5px);
+        border: 2px solid white;
+    }
+</style>
+
+<body>
+    <!-- Modal Structure -->
+    <div id="cartOverviewModal" class="modal"
+        style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5);">
+        <div class="modal-content"
+            style="background-color: #fff; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+            <span class="closeBtn"
+                style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+            <div style="padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+                <p style="font-size: 16px; color: #333; line-height: 1.6; margin-bottom: 10px;">
+                    <strong style="font-size: 18px; color: #000;">Profile Info</strong>
+                </p>
+                <p style="font-size: 14px; color: #555; margin-bottom: 15px;"><%= getVendorsProfileItems[0].bio %></p>
+            </div>
+        </div>
+    </div>
+
+    <span class="material-symbols-outlined" onclick="profileInfo()"
+        style="display: flex; justify-content: right; padding: 10px; font-size: 14px; color: var(--blue);">info</span>
+    <img src="/images/waved.png" width="100%" style="border: none; position: absolute;">
+    <div class="profile-image">
+        <img src="/profile_uploads/<%= getVendorsProfileItems[0].profile_image%>" width="110px" height="100px"><br>
+        
+        <button type="button" onclick="followVendor()" class="material-symbols-outlined followBtn" id="edit-icon" style="cursor: pointer;">
+            <% if (getFollowCheckItems.length > 0) { %>
+                group
+            <% }else { %>
+                add
+            <% }%>
+            </button><br><br>
+
+        <h3 style="display: flex; justify-content: center;"><%= getVendorsProfileItems[0].first_name %>
+            <%= getVendorsProfileItems[0].last_name %>
+            <% if (getVendorsProfileItems[0].vendor_status === "approved") { %>
+            <span class="material-symbols-sharp" style="color: #34bdff;;">verified</span>
+            <% } %>
+        </h3>
+        <p style="font-size: 12px; color: #a7a7a7; margin: 0 ;">Username:
+            <b><%= getVendorsProfileItems[0].username %></b></p>
+        <p style="font-size: 12px; color: #a7a7a7; margin: 3px 0;">Email: <%= getVendorsProfileItems[0].email %></p>
+    </div>
+
+    <div class="products-container"
+        style="background: #ffffff7d; border-top: 2px solid #f8dcdd; border-top-left-radius: 10%; border-top-right-radius: 10%; margin: 3px 0;">
+        <div class="products-item-container">
+            <% if (getVendorusersProductItems.length === 0) { %>
+            <p>No Data Available</p>
+            <%} else { 
+                getVendorusersProductItems.forEach(getVendorusersProductItem => { 
+                 const getVendorusersProductItemImage = JSON.parse(getVendorusersProductItem.image_urls)[0]
+            %>
+            <article>
+                <a href="/product_view/<%= getVendorusersProductItem.id %>">
+                    <img src="/uploads/<%= getVendorusersProductItemImage %>" loading="lazy" width="100%" height="150px"
+                        style="border-radius: 5px; padding: 10px 0;">
+                    <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">Category: <a
+                            href=""><%= getVendorusersProductItem.category%></a></p>
+                    <p style="font-size: 12px; line-height: 15px; font-weight: bold;">
+                        <%= getVendorusersProductItem.name%></p>
+                    <div
+                        style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 12px; align-items: center;">
+                        <p style="margin: 0;  font-size: 12px;">
+                            <%= getVendorusersProductItem.currency+""+getVendorusersProductItem.price %></p>
+                        <span style="font-size: 10px;">ID: #<%= getVendorusersProductItem.ref_id %></span>
+                    </div>
+                </a>
+            </article>
+            <%})}%>
+
+
+        </div>
+    </div>
+
+    <script>
+
+        const followBtn = document.querySelector('.followBtn')
+
+        function followVendor() {
+            const vendorData = {
+                vendorUsername: `<%= getVendorsProfileItems[0].username %>`
+            }
+            fetch("/profilePage/followVendor", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(vendorData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success_added") {
+                    followBtn.textContent = "group"
+                }else if (data.status === "success_remove") {
+                    followBtn.textContent = "add"
+                }else {
+                    toastr.warning(`${data.message}`), (`${data.status}`)
+                }
+            })
+        }
+
+
+        // Get modal element
+        var modal = document.getElementById("cartOverviewModal");
+        // Get open modal button
+        var openModalBtn = document.getElementById("openModalBtn");
+        var closeBtn = document.getElementsByClassName("closeBtn")[0];
+
+        // Listen for open click
+        function profileInfo() {
+            modal.style.display = "block";
+        }
+        // Listen for close click
+        closeBtn.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // Listen for outside click
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+    <%- include('./layouts/footer.ejs') %>

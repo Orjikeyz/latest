@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="description" content="POS - Bootstrap Admin Template">
+  <meta name="keywords" content="admin, estimates, bootstrap, business, corporate, creative, invoice, html5, responsive, Projects">
+  <meta name="author" content="Dreamguys - Bootstrap Admin Template">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dreams Pos Admin Template</title>
+
+  <link rel="shortcut icon" type="image/x-icon" href="/vendorAssets/images/favicon.png">
+
+  <link rel="stylesheet" href="/vendorAssets/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="/vendorAssets/css/bootstrap-datetimepicker.min.css">
+
+  <link rel="stylesheet" href="/vendorAssets/css/animate.css">
+
+  <link rel="stylesheet" href="/vendorAssets/css/select2.min.css">
+
+  <link rel="stylesheet" href="/vendorAssets/css/fontawesome.min.css">
+  <link rel="stylesheet" href="/vendorAssets/css/all.min.css">
+
+  <link rel="stylesheet" href="/vendorAssets/css/style.css">
+</head>
+
+<body>
+  <div id="global-loader">
+    <div class="whirly-loader"> </div>
+  </div>
+
+  <div class="main-wrapper">
+
+    <div class="header">
+
+      <div class="header-left active">
+        <a href="index.html" class="logo logo-normal">
+          <img src="/vendorAssets/images/logo.png" alt="">
+        </a>
+        <a href="index.html" class="logo logo-white">
+          <img src="/vendorAssets/images/logo-white.png" alt="">
+        </a>
+        <a href="index.html" class="logo-small">
+          <img src="/vendorAssets/images/logo-small.png" alt="">
+        </a>
+        <a id="toggle_btn" href="javascript:void(0);">
+          <i data-feather="chevrons-left" class="feather-16"></i>
+        </a>
+      </div>
+
+      <a id="mobile_btn" class="mobile_btn" href="#sidebar">
+        <span class="bar-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </a>
+
+      <ul class="nav user-menu">
+
+        <li class="nav-item nav-searchinputs">
+          <div class="top-nav-search">
+            <a href="javascript:void(0);" class="responsive-search">
+              <i class="fa fa-search"></i>
+            </a>
+          </div>
+        </li>
+
+        <li class="nav-item nav-item-box">
+          <a href="javascript:void(0);" id="btnFullscreen">
+            <i data-feather="maximize"></i>
+          </a>
+        </li>
+
+        <li class="nav-item dropdown nav-item-box">
+          <a href="javascript:void(0);" class="dropdown-toggle nav-link" data-bs-toggle="dropdown">
+            <i data-feather="bell"></i><span class="badge rounded-pill">2</span>
+          </a>
+          <div class="dropdown-menu notifications">
+            <div class="topnav-dropdown-header">
+              <span class="notification-title">Notifications</span>
+              <a href="javascript:void(0)" class="clear-noti"> Clear All </a>
+            </div>
+            <div class="noti-content">
+              <ul class="notification-list">
+                <li class="notification-message">
+                  <a href="activities.html">
+                    <div class="media d-flex">
+                      <span class="avatar flex-shrink-0">
+                        <img alt="" src="/vendorAssets/images/avatar-02.jpg">
+                      </span>
+                      <div class="media-body flex-grow-1">
+                        <p class="noti-details"><span class="noti-title">John Doe</span> added
+                          new task <span class="noti-title">Patient appointment booking</span>
+                        </p>
+                        <p class="noti-time"><span class="notification-time">4 mins ago</span>
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="topnav-dropdown-footer">
+              <a href="activities.html">View all Notifications</a>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item nav-item-box">
+          <a href="general-settings.html"><i data-feather="settings"></i></a>
+        </li>
+        <li class="nav-item dropdown has-arrow main-drop">
+          <a href="javascript:void(0);" class="dropdown-toggle nav-link userset" data-bs-toggle="dropdown">
+            <span class="user-info">
+              <span class="user-letter">
+                <img src="/vendorAssets/images/avator1.jpg" alt="" class="img-fluid">
+              </span>
+              <span class="user-detail">
+                <span class="user-name">John Smilga</span>
+                <span class="user-role">Super Admin</span>
+              </span>
+            </span>
+          </a>
+          <div class="dropdown-menu menu-drop-user">
+            <div class="profilename">
+              <div class="profileset">
+                <span class="user-img"><img src="/vendorAssets/images/avator1.jpg" alt="">
+                  <span class="status online"></span></span>
+                <div class="profilesets">
+                  <h6>John Smilga</h6>
+                  <h5>Super Admin</h5>
+                </div>
+              </div>
+              <hr class="m-0">
+              <a class="dropdown-item" href="profile.html"> <i class="me-2" data-feather="user"></i> My
+                Profile</a>
+              <a class="dropdown-item" href="general-settings.html"><i class="me-2" data-feather="settings"></i>Settings</a>
+              <hr class="m-0">
+              <a class="dropdown-item logout pb-0" href="signin.html"><img src="/vendorAssets/images/log-out.svg" class="me-2" alt="img">Logout</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+
+
+      <div class="dropdown mobile-user-menu">
+        <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+        <div class="dropdown-menu dropdown-menu-right">
+          <a class="dropdown-item" href="profile.html">My Profile</a>
+          <a class="dropdown-item" href="general-settings.html">Settings</a>
+          <a class="dropdown-item" href="signin.html">Logout</a>
+        </div>
+      </div>
+
+    </div>
+
+
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-inner slimscroll">
+        <div id="sidebar-menu" class="sidebar-menu">
+          <ul>
+            <li class="submenu-open">
+              <h6 class="submenu-hdr">Main</h6>
+              <ul>
+                <li class="submenu">
+                  <a href="javascript:void(0);" class="subdrop active"><i data-feather="grid"></i><span>Dashboard</span></a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="submenu-open">
+              <h6 class="submenu-hdr">Inventory</h6>
+              <ul>
+                <li><a href="product-list.html"><i data-feather="box"></i><span>Products</span></a></li>
+                <li><a href="add-product.html"><i data-feather="plus-square"></i><span>Create Product</span></a></li>
+                <li><a href="add-product.html"><i data-feather="message-square"></i><span>Product Comments</span></a></li>
+              </ul>
+            </li>
+            
+            <li class="submenu-open">
+              <h6 class="submenu-hdr">People</h6>
+              <ul>
+                <li><a href="manage-stocks.html"><i data-feather="users"></i><span>Followers</span></a></li>
+                <li><a href="stock-adjustment.html"><i data-feather="users"></i><span>Following</span></a></li>
+                <!-- <li><a href="stock-adjustment.html"><i data-feather="clipboard"></i><span>Customer Messages</span></a></li> -->
+                <li><a href="stock-adjustment.html"><i data-feather="bell"></i><span>Order Notifications</span></a></li>
+            </li><hr>
+
+            <li class="submenu-open">
+                <h6 class="submenu-hdr">Marketing</h6>
+                <ul>
+                  <li><a href="product-list.html"><i data-feather="gift"></i><span>Promotion</span></a></li>
+                  <li><a href="add-product.html"><i data-feather="target"></i><span>Advertise</span></a></li>
+                </ul>
+              </li><hr>
+
+              <li class="submenu-open">
+                <h6 class="submenu-hdr">Settings</h6>
+                <ul>
+                  <li><a href="product-list.html"><i data-feather="settings"></i><span>Profile Settings</span></a></li>
+                  <li><a href="add-product.html"><i data-feather="phone-call"></i><span>Contact Support</span></a></li>
+                  <li><a href="add-product.html"><i data-feather="mail"></i><span>Feedback</span></a></li>
+                  <li><a href="add-product.html"><i data-feather="log-out"></i><span>Logout</span></a></li>
+                </ul>
+              </li><hr>
+          </ul>
+        </div>
+      </div>
+    </div>
+

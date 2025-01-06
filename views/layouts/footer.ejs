@@ -1,0 +1,108 @@
+
+<br><br><br><br>
+<footer>
+    <ul>
+        <li>
+            <a href="/">
+                <p class="material-symbols-outlined">dashboard</p>
+                <p style="font-size: 10px;">Home</p>
+            </a>
+        </li>
+        <li>
+            <a href="/category">
+                <p class="material-symbols-outlined">category</p>
+                <p style="font-size: 10px;">Category</p>    
+            </a>
+        </li>
+        <li>
+            <a href="/carts_vendor">
+                <p class="material-symbols-outlined">shopping_bag</p>
+                <p style="font-size: 10px;">Cart</p>    
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <p class="material-symbols-outlined">rewarded_ads</p>
+                <p style="font-size: 10px;">Earn</p>    
+            </a>
+        </li>
+        <li>
+            <a href="/profilePage/profile">
+                <p class="material-symbols-outlined">admin_panel_settings</p>
+                <p style="font-size: 10px;">Profile</p>    
+            </a>
+        </li>
+    </ul>
+</footer>
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"><!-- Toastr CSS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script><!-- Toastr JS -->
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script>
+$(document).ready(function () {
+    var slickSettings = {
+        autoplay: true,
+        autoplaySpeed: 2000,
+        dots: true,
+        arrows: false,
+        infinite: true,
+        speed: 1000,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    };
+
+    $('.advert-container-content').slick(slickSettings);
+    $('.product-images').slick(slickSettings);
+});
+
+//Toast Alert 
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": true,
+    "progressBar": true,
+    "positionClass": "toast-top-right", // This sets the position to top-right
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+  }
+
+  function alertNotification(status, message) {
+    if (status === "success") {
+        toastr.success(`${message}`, `${status}`)
+    }else if (status === "update") {
+        toastr.info(`${message}`, `${status}`)
+    }else if (status === "error") {
+        toastr.error(`${message}`, `${status}`)
+    }
+}
+
+// Swiper SLide
+document.addEventListener("DOMContentLoaded", function() {
+            var swiper = new Swiper('.swiper-container', {
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                lazy: {
+                    loadPrevNext: true,
+                },
+                autoplay: {
+                    delay: 3000, // Time between slides in milliseconds
+                    disableOnInteraction: false, // Continue autoplay after user interaction
+                },
+            });
+        });
+</script>
+</body>
+</html>

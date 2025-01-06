@@ -1,0 +1,125 @@
+<%- include("./layouts/header.ejs")%>
+<nav>
+    <ul>
+        <li>
+            <img src="/images/istockphoto-1072528872-612x612.jpg" width="45px" height="45px">
+            <p style="padding: 10px;"><span style="font-size: 13px;">Welcome</span>, <br>
+                <b style="font-size: 14px; padding: 10px 0;">Robert Fox</b>
+            </p>
+        </li>
+        <li><span class="material-symbols-outlined alerm">notifications</span></li>
+    </ul>
+</nav>
+
+<div class="search-container">
+    <span class="material-symbols-outlined search-icon">search</span>
+    <input type="text" placeholder="Search Products">
+</div>
+
+<div class="advert-container">
+    <div class="advert-container-content">
+        <div class="advert-container-items">
+            <article>
+                <p style="font-weight: bold;"><i>New Collection</i></p>
+                <p style="padding: 5px 0; font-size: 20px; font-weight: bold;"><span
+                        style="color: var(--blue);">50%</span> <span>OFF</span></p>
+                <p>on all Nike Shoes</p>
+                <button>Buy Now!</button>
+            </article>
+            <article>
+                <img src="./images/teras.png" width="150px" height="150px">
+            </article>
+        </div>
+
+        <div class="advert-container-items">
+            <article>
+                <p style="font-weight: bold;"><i>New Collection</i></p>
+                <p style="padding: 5px 0; font-size: 20px; font-weight: bold;"><span
+                        style="color: var(--blue);">50%</span> <span>OFF</span></p>
+                <p>on all Nike Shoes</p>
+                <button>Buy Now!</button>
+            </article>
+            <article>
+                <img src="./images/female.png" width="150px" height="150px">
+            </article>
+        </div>
+
+        <div class="advert-container-items">
+            <article>
+                <p style="font-weight: bold;"><i>New Collection</i></p>
+                <p style="padding: 5px 0; font-size: 20px; font-weight: bold;"><span
+                        style="color: var(--blue);">50%</span> <span>OFF</span></p>
+                <p>on all Nike Shoes</p>
+                <button>Buy Now!</button>
+            </article>
+            <article>
+                <img src="./images/smart.png" width="150px" height="150px">
+            </article>
+        </div>
+    </div>
+</div>
+
+<div class="products-container">
+    <ul style="position: sticky; width: 100%; top: 0; background: var(--light-white); padding: 10px ">
+        <li><b>New Arrival</b></li>
+        <li><a href="products"><button>View All</button></a></li>
+    </ul><br>
+    <div class="products-item-container">
+        <% allProducts.forEach(allProduct => { 
+                const allProductImage = JSON.parse(allProduct.image_urls)[0]
+            %>
+        <article>
+            <a href="product_view/<%= allProduct.id %>">
+                <img src="./uploads/<%= allProductImage %>" loading="lazy" width="100%" height="150px"
+                    style="border-radius: 5px; padding: 10px 0;">
+                <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">
+                    <span>Vendor: <a href="/vendors_profile/<%= allProduct.posted_by%>" style="color: var(--blue);">@<%= allProduct.posted_by%></a></span>
+                </p>
+                <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">Category: <a
+                        href=""><%= allProduct.category%></a></p>
+                <p style="font-size: 12px; line-height: 15px; font-weight: bold;"><%= allProduct.name%></p>
+                <div
+                    style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 12px; align-items: center;">
+                    <p style="margin: 0;  font-size: 12px;"><%= allProduct.currency+""+allProduct.price %></p>
+                    <span style="font-size: 10px;">ID: #<%= allProduct.ref_id %></span>
+                </div>
+            </a>
+        </article>
+        <% }) %>
+
+    </div>
+</div>
+
+<div class="vendor-container">
+    <ul class="detail-list">
+        <li><b>Vendors</b></li>
+        <li><a href="/vendors-slide"><button class="detail-list-button">View All</button></a></li>
+    </ul>
+    <div class="vendor-container-list">
+        <% if (getCartVendorsItems.length <= 0) { %>
+            <p style="text-align: center; padding: 10px 0;">No data available</p>
+        <% }else {
+            getCartVendorsItems.forEach(getCartVendorsItem => {
+        %>
+            <article>
+            <div class="vendor-content" style="display: flex;">
+                <img src="/profile_uploads/<%= getCartVendorsItem.profile_image %>" width="100px" height="100px">
+                <div>
+                    <p>Username: <span style="color: var(--blue); font-weight: bold;"><a href="/vendors_profile/<%= getCartVendorsItem.username %>">@<%= getCartVendorsItem.username %></a></span></p>
+                    <p style="text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; width: 180px;">Business Name: <%= getCartVendorsItem.business_name %> </p>
+                    <p>Items: <%= getCartVendorsItem.total_products %></p>
+                    <a href="/vendors_profile/<%= getCartVendorsItem.username %>"><button>View Profile</button></a>
+                </div>
+            </div>
+            <p style="text-align: center;">
+                <% if (getCartVendorsItem.vendor_status === "approved") {%>
+                    <span class="material-symbols-outlined" style="font-size: 16px; color: var(--green);">verified</span>
+                <%}%><br>
+                <span style="position: relative; top: 30px;">ID: #<%= getCartVendorsItem.user_id %></span>
+            </p>
+        </article>
+        <%})}%>
+    </div>
+</div>
+
+<%- include("./layouts/footer.ejs")%>

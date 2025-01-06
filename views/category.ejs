@@ -1,0 +1,162 @@
+<%- include("./layouts/header.ejs")%>
+
+<style>
+    .side-category {
+        position: fixed;
+        z-index: 1;
+        left: 2%;
+    }
+
+    .side-category ul {
+        background-color: #65b1fd;
+        height: 100vh;
+        color: var(--light-white);
+        list-style-type: none;
+        width: 100%;
+        border-radius: 5px;
+        margin: 5px 8px;
+    }
+
+    .side-category ul li {
+        display: block;
+        cursor: pointer;
+        font-size: 10px;
+        padding: 5px;
+        margin: 5px 0;
+        text-align: center;
+    }
+
+    .category-container {
+        background-color: #f6f1f1;
+        overflow: scroll;
+        width: 80%;
+        height: 100vh;
+        position: fixed;
+        right: -5px;
+        margin-top: 5px;
+        border-radius: 5px;
+        padding: 0 5px;
+    }
+</style>
+<div style="padding: 10px; display: flex; justify-content: space-between;">
+    <a href="/"><span class="material-symbols-outlined">keyboard_arrow_left</span></a>
+</div>
+<h3 style="margin: 10px 15px;">All Category</h3>
+<div class="side-category">
+    <ul>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">laundry</span><br>
+            <span class='catlog-name'>Clothing</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">footprint</span><br>
+            <span class='catlog-name'>Shoes</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">tv_gen</span><br>
+            <span class='catlog-name'>Electronics</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">health_and_beauty</span><br>
+            <span class='catlog-name'>Beauty</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">devices_other</span><br>
+            <span class='catlog-name'>Gadget</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">fastfood</span><br>
+            <span class='catlog-name'>Food</span> & <br>Snacks
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">health_and_beauty</span><br>
+            <span class='catlog-name'>Jewelry & <br>Watches</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">toys_and_games</span><br>
+            <span class='catlog-name'>Baby & <br> Toys</span>
+        </li>
+        <li class="catlog-list">
+            <span class="material-symbols-outlined">group</span><br>
+            <span class='catlog-name'>Services</span>
+        </li>
+    </ul>
+</div>
+<div class="category-container">
+    <p style="padding: 0px 12px; font-size: 13px; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; text-decoration: underline; transform: translateY(5px);" id="tab-name" >Clothing</p>
+    <div class="category-content">
+        <!-- Products will be dynamically inserted here -->
+    </div>
+    <br><br><br><br><br><br>
+    <br><br><br>
+</div>
+
+<script>
+    let catlog_list = document.querySelectorAll(".catlog-list");
+    let catlog_name = document.querySelectorAll(".catlog-name");
+    let tab_name = document.querySelector("#tab-name");
+    let category_content = document.querySelector('.category-content');
+
+    for (let i = 0; i < catlog_list.length; i++) {
+        catlog_list[i].addEventListener("click", function () {
+            tab_name.textContent = catlog_name[i].textContent;
+            categoryHandler();
+        });
+    }
+
+    categoryHandler();
+
+    function categoryHandler() {
+        let url = "/categorySearch";
+        let catlogData = {
+            query: tab_name.textContent
+        };
+
+        fetch(url, {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(catlogData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                category_content.innerHTML = ""; // Clear the existing content
+
+                if (data.length === 0) {
+                    category_content.innerHTML =
+                        "<p style='padding: 10px; text-align: center; transform: translateY(30vh); font-size: 13px'><span class='material-symbols-outlined'>category_search</span><br><span>No Data Available</span></p>";
+                } else {
+                    let productsHTML = `<div class="products-container">
+                                        <div class="products-item-container">`;
+
+                    data.forEach(value => {
+                        let productImage = JSON.parse(value.image_urls)
+                        productsHTML += `<article>
+                        <a href="/product_view/${value.id}">
+                            <img src="/uploads/${productImage[0]}" width="100%" height="150px" style="border-radius: 5px; padding: 10px 0;">
+                            <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">
+                                <span>Vendor: <a href="/vendors_profile/${value.posted_by}" style="color: var(--blue);">@${value.posted_by}</a></span>
+                            </p>
+                            <p style="font-size: 10px; line-height: 10px; margin: 5px 0;">Category: <a href="">${value.category}</a></p>
+                            <p style="font-size: 12px; line-height: 15px; font-weight: bold;">${value.name}</p>
+                            <div style="display: flex; justify-content: space-between; margin: 10px 0; font-size: 12px; align-items: center;">
+                                <p style="margin: 0;  font-size: 12px;">${value.currency}${value.price}</p>
+                                <span style="font-size: 10px;">ID: #${value.ref_id}</span>
+                            </div>
+                        </a>
+                    </article>`;
+                    });
+
+                    productsHTML += `</div></div>`;
+                    category_content.innerHTML = productsHTML;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching category data:', error);
+            });
+    }
+</script>
+
+<%- include("./layouts/footer.ejs")%>

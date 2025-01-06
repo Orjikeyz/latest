@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Mulish;
+        }
+
+        .form-container form {
+            padding: 10px;
+        }
+
+        .form-container form input[type=email],
+        input[type=password] {
+            display: block;
+            padding: 18px 30px;
+            border-radius: 10px;
+            border: 1px solid #1933642e;
+            outline: none;
+            margin: 35px 0;
+            width: 100%;
+        }
+
+        .form-container form label {
+            margin: 15px 0;
+            text-transform: uppercase;
+            font-size: 12px;
+            padding: 0 10px;
+            position: absolute;
+            transform: translate(20px, -1px);
+            background-color: white;
+            text-align: center;
+            color: #193364;
+            font-weight: 500;
+        }
+
+        .form-container form #password-label {
+            transform: translate(20px, -20px);
+        }
+
+        .form-container form button {
+            width: 100%;
+            padding: 18px 10px;
+            border-radius: 10px;
+            border: 1px solid #1933642e;
+            outline: none;
+            background-color: #193364;
+            color: orange;
+            font-size: 15px;
+            font-weight: bolder;
+        }
+
+        .error {
+            border: 1px solid #ff2828 !important;
+        }
+
+        .succuss {
+            border: 1px solid #28ff97 !important;
+        }
+
+        .error-message {
+            position: absolute;
+            transform: translate(30px, -30px);
+            display: none;
+            font-size: 11px;
+            color: #ff2828;
+        }
+
+        .error-message-toggle {
+            display: block;
+        }
+    </style>
+    <div class="container">
+        <div style="color: #193364; text-align: center;">
+            <p style="font-size: 20px;">Sign In</p>
+            <h1 style=" margin-top: 30px; padding: 20px 10px;">Welcome Back!</h1>
+            <p>Sign in to continue</p><br><br>
+        </div>
+        <div class="form-container">
+            <form action="" method="post">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="example@gmail.com" required>
+                <p id="emailError" class="error-message">Please enter a valid email address.</p>
+
+                <label for="password" id="password-label">Password</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" required>
+                <p id="passwordError" class="error-message">Please enter a valid password.</p>
+
+                <a href=""
+                    style="color: #193364; text-decoration: none; display: flex; justify-content: end; margin: 5px 0; transform: translateY(-10px);">Forget
+                    password?</a>
+                <button type="button" onclick="submitButton()">Sign In</button>
+                <p style="padding: 15px 0; font-size: 16px; text-align: center; color: #193364;">Don't have an account?
+                    <a href="" style="text-decoration: none; font-weight: bold; color: #193364">Sign up </a></p>
+            </form>
+        </div>
+    </div>
+    <script>
+        function submitButton() {
+            let email = document.getElementById("email");
+            let password = document.getElementById("password");
+            let emailError = document.getElementById("emailError");
+            let passwordError = document.getElementById("passwordError");
+            let error_message = document.querySelectorAll(".error-message");
+
+            let emailProcess = 0;
+            let passwordProcess = 0;
+            // Regular expression for basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            // Clear previous error states for email
+            email.classList.remove("error");
+            error_message[0].classList.remove('error-message-toggle');
+
+            // Email validation
+            if (email.value.length <= 0 || email.value === "") {
+                email.classList.add("error");
+                error_message[0].classList.add('error-message-toggle');
+                emailError.innerText = "Email field cannot be empty.";
+            } else if (!emailRegex.test(email.value)) {
+                email.classList.add("error");
+                error_message[0].classList.add('error-message-toggle');
+                emailError.innerText = "Please enter a valid email address.";
+            } else {
+                email.classList.add("success");
+                error_message[0].classList.remove('error-message-toggle');
+                emailProcess = 1
+            }
+
+            // Clear previous error states for password
+            password.classList.remove("error");
+            error_message[1].classList.remove('error-message-toggle');
+
+            // Password validation
+            if (password.value.length <= 0 || password.value === "") {
+                password.classList.add("error");
+                error_message[1].classList.add('error-message-toggle');
+                passwordError.innerText = "Password field cannot be empty.";
+            } else if (password.value.length < 8) {
+                password.classList.add("error");
+                error_message[1].classList.add('error-message-toggle');
+                passwordError.innerText = "Password must be at least 8 characters long.";
+            } else {
+                password.classList.add("success");
+                error_message[1].classList.remove('error-message-toggle');
+                passwordProcess = 1
+            }
+            processFormData(emailProcess, passwordProcess)
+        }
+
+        function processFormData(emailProcess, passwordProcess) {
+            {
+                let processValue = eval(emailProcess + passwordProcess)
+                if (processValue === 2) {
+                    const formData = {
+                        email: email.value,
+                        password: password.value
+                    }
+                    fetch("/loginAuthentication", {
+                        method: "POST",
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+                    })
+                }
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

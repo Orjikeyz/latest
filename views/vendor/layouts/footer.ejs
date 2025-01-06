@@ -1,0 +1,63 @@
+</div>
+
+<script>
+    const notyf = new Notyf();
+    // Define the alertNotification function
+    function alertNotification(status, msg) {
+        // Check the status and call the corresponding Notyf method
+        if (status === "success") {
+            notyf.success({
+                message: msg,
+                duration: 5000
+            });
+        } else if (status === "error") {
+            notyf.error({
+                message: msg,
+                duration: 5000
+            });
+            notifyRemove()
+        } else {
+            // For custom types or warnings
+            notyf.open({
+                type: status, // Add custom types as needed
+                message: msg,
+                duration: 5000
+            });
+        }
+    }
+
+    function notifyRemove() {
+        const notyfAlertRemove = document.querySelectorAll(".notyf__toast")
+        for (let i = 0; i < notyfAlertRemove.length; i++) {
+            notyfAlertRemove[i].addEventListener("click", function () {
+                notyfAlertRemove[i].style.display = "none"
+                console.log([i])
+            })
+        }
+
+    }
+</script>
+
+<script src="/vendorAssets/js/jquery-3.7.1.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+
+<script src="/vendorAssets/js/feather.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+
+<script src="/vendorAssets/js/jquery.slimscroll.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+
+<script src="/vendorAssets/js/bootstrap.bundle.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+
+<script src="/vendorAssets/js/apexcharts.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+<script src="/vendorAssets/js/chart-data.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+
+<script src="/vendorAssets/js/sweetalert2.all.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+<script src="/vendorAssets/js/sweetalerts.min.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+
+<script src="/vendorAssets/js/script.js" type="701eb75930d4e38dda809fc4-text/javascript"></script>
+<script src="/vendorAssets/js/rocket-loader.min.js" data-cf-settings="701eb75930d4e38dda809fc4-|49" defer=""></script>
+
+
+
+
+</body>
+
+</html>

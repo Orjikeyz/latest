@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
+    <!-- Slick Slider Theme (Optional) -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@24,100,1,0" />
+    <!-- Slick Slider JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary: "";
+        --secondary: "";
+        --text: #565555;
+        --light-white: white;
+        --blue: dodgerblue;
+        --green: #21d681;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    body {
+        background: #f9f7f7;
+        font-family: sans-serif;
+        color: var(--text);
+    }
+
+    nav {
+        padding: 10px;
+        color: var(--text);
+    }
+
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav ul li {
+        display: flex;
+        align-items: center;
+    }
+
+    nav ul li img {
+        border-radius: 100%;
+    }
+
+    nav ul li .alerm {
+        background-color: var(--light-white);
+        padding: 10px;
+        border-radius: 100%;
+    }
+
+    .search-container {
+        padding: 10px;
+    }
+
+    .search-container input {
+        background-color: var(--light-white);
+        padding: 15px 10px;
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        box-shadow: 1px 1px 5px #e2e2e2;
+    }
+
+    .search-container .search-icon {
+        position: absolute;
+        padding: 8px 10px;
+        /* color: #8b8888; */
+        background: var(--blue);
+        color: white;
+        border-radius: 6px;
+        right: 15px;
+        transform: translateY(5px);
+        font-size: 18px;
+    }
+
+    .advert-container {
+        padding: 10px;
+    }
+
+    .advert-container .advert-container-items {
+        padding: 20px;
+        background: linear-gradient(#e4e4e491, #e4e4e43a), url(./images/a-0270.png);
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 1px 1px 5px #dfdfdf;
+    }
+
+    .advert-container .advert-container-items button {
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .products-container {
+        padding: 10px 0px;
+    }
+
+    .products-container ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .products-container ul li button {
+        padding: 5px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .products-item-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 10px;
+    }
+
+    .products-item-container article {
+        background-color: white;
+        border-radius: 5px;
+        padding: 5px;
+        overflow: hidden;
+        box-shadow: 1px 1px 5px #efeeee;
+        margin: 3px 2%;
+    }
+
+    .products-item-container article p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .products-item-container button {
+        padding: 10px;
+        width: 100%;
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+        border: none;
+        outline: none;
+        background-color: #65b1fd;
+        color: var(--light-white);
+    }
+
+    .products-item-container a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .detail-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        width: 100%;
+        top: 0;
+        background: var(--light-white);
+        padding: 10px
+    }
+
+    .detail-list-button {
+        padding: 5px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .vendor-container-list {
+        padding: 10px;
+        display: grid;
+    }
+
+    .vendor-container-list article {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(#ffffff8f, #ffffff24), url(./images/wrapp.avif);
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px #ededed;
+        /* border-bottom: 2px solid var(--blue); */
+        overflow: hidden;
+        margin: 5px 0;
+    }
+
+    .vendor-container-list article p {
+        margin: 7px 0;
+        font-size: 12px;
+    }
+
+    .vendor-container-list article button {
+        padding: 5px 15px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        font-size: 11px;
+        border-radius: 3px;
+    }
+
+    .vendor-container-list article img {
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .pending {
+        background-color: #ffa60060;
+        padding: 3px 5px;
+        margin: 5px 0;
+        color: orange;
+        font-size: 12px;
+    }
+
+    .active {
+        background-color: #03e18060;
+        padding: 3px 5px;
+        margin: 5px 0;
+        color: #09a167;
+        font-size: 12px;
+    }
+
+    footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    footer ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style-type: none;
+        background: var(--light-white);
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+<style>
+    body {
+        /* background: url(./images/wrapp.avif); */
+        background: linear-gradient(#ecf7fc, #f4faff);
+    }
+
+    .profile-image img {
+        border-radius: 50%;
+        transform: translateY(20px);
+        border: 2px solid white;
+    }
+
+    .profile-image {
+        text-align: center;
+    }
+
+    #edit-icon {
+        color: #55c8ff;
+        border-radius: 50%;
+        background: #e3f6ff;
+        padding: 5px;
+        transform: translateY(-5px);
+        border: 2px solid white;
+    }
+
+    .profile-outcomes {
+        z-index: 1 !important;
+        position: relative;
+        top: 15px;
+    }
+
+    .profile-outcomes ul {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 20px 4%;
+        /* background-color: var(--light-white); */
+        list-style-type: none;
+        text-align: center;
+        /* padding: 10px; */
+        border-radius: 15px;
+    }
+
+    .profile-outcomes ul li {
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px #f3efef;
+        background-color: white;
+    }
+
+    .profile-outcomes ul li p:nth-child(odd) {
+        font-size: 9px;
+    }
+
+    .profile-outcomes ul li p:nth-child(even) {
+        font-size: 10px;
+    }
+
+    .profile-navigations {
+        background-color: white;
+        width: 95%;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        margin: 0 50%;
+        transform: translate(-50%, -50px);
+        box-shadow: 1px 1px 5px #efeeee;
+        padding: 10px;
+        z-index: -1;
+    }
+
+    .profile-navigations ul {
+        list-style-type: none;
+        padding: 5px;
+        margin: 5px 0px;
+    }
+
+    .profile-navigations ul li {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+        font-size: 13px;
+    }
+
+    .profile-navigations ul li .material-symbols-outlined {
+        color: #827f7f;
+        font-weight: 100;
+    }
+</style>
+
+<div style="padding: 20px; display: flex; justify-content: space-between;">
+    <a href="/"><span><b>Profile</b></span></a>
+</div>
+
+<div class="profile-container">
+    <img src="../public/images/waved.png" width="100%" style="border: none; position: absolute;">
+    <div class="profile-image">
+        <img src="./images/istockphoto-1072528872-612x612.jpg" width="100px" height="100px"><br>
+        <p class="material-symbols-outlined" id="edit-icon">tune</p>
+        <h3>Tyler Mason Doe <span class="material-symbols-sharp" style="color: #34bdff;;">verified</span></h3>
+        <p style="font-size: 12px; color: #a7a7a7; margin: 3px 0;">example@gmail.com</p><br>
+        <p style="font-size: 12px; color: #a7a7a7; margin: 3px 0;">Available Balance</p>
+        <p style="font-size: 25px; margin: 5px 0;">&#8358;4050.95</p>
+        <p><a href=""><b style="color: #34bdff;">Become a vendor</b></a></p>
+    </div>
+
+    <div class="profile-outcomes">
+        <ul>
+            <li>
+                <p><span class="material-symbols-outlined" style="color: var(--green);">groups</span></p>
+                <span>443</span>
+                <p>vendors</p>
+            </li>
+
+            <li>
+                <p><span class="material-symbols-sharp" style="color: var(--blue);">shopping_bag</span></p>
+                <span>4434</span>
+                <p>carts</p>
+            </li>
+
+            <li>
+                <p><span class="material-symbols-sharp" style="color: #ff4444">favorite</span></p>
+                <span>536</span>
+                <p>Favourite</p>
+            </li>
+
+            <li>
+                <p><span class="material-symbols-outlined" style="color: orange;">share_reviews</span></p>
+                <span>536</span>
+                <p>referals</p>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="profile-navigations"><br><br><br>
+        <span style="font-size: 12px; color: #a7a7a7;">Account Settings</span>
+        <ul>
+            <a href="">
+                <li>
+                    <span>Personal Information</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Notification</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Vendors</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>List </span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+        </ul>
+
+        <span style="font-size: 12px; color: #a7a7a7;">Security </span>
+        <ul>
+            <a href="">
+                <li>
+                    <span>Change Password</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Payment</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Login Alert</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>IP Address: </span>
+                    <span>39.4349.5434</span>
+                </li>
+            </a>
+        </ul>
+
+        <span style="font-size: 12px; color: #a7a7a7;">Help & Support </span>
+        <ul>
+            <a href="">
+                <li>
+                    <span>Privacy Policy</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Terms & Condition</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>FAQ & Help</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Report</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+        </ul>
+    </div>
+    <p style="color: #ff4444; text-align: center; transform: translateY(-20px);;">
+        <span class="material-symbols-outlined" style="font-size: 14px;">power_settings_new</span><br>
+        <span style="font-size: 13px;">Logout</span>
+    </p>
+</div>
+
+<br><br><br><br>
+<footer>
+    <ul>
+        <li>
+            <p class="material-symbols-outlined">dashboard</p>
+            <p style="font-size: 10px;">Home</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">category</p>
+            <p style="font-size: 10px;">Category</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">shopping_bag</p>
+            <p style="font-size: 10px;">Cart</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">rewarded_ads</p>
+            <p style="font-size: 10px;">Earn</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">admin_panel_settings</p>
+            <p style="font-size: 10px;">Profile</p>
+        </li>
+    </ul>
+</footer>
+
+</body>
+
+</html>

@@ -1,0 +1,118 @@
+<%- include('./layouts/header.ejs') %>
+
+<style>
+    body {
+        overflow: hidden;
+    }
+
+    footer {
+        z-index: 99;
+    }
+    
+    .swiperContainer {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100vh;
+        padding: 10px;
+        color: white;
+        background-size: cover;
+        /* Cover the entire container */
+        background-repeat: no-repeat;
+        background-position: center;
+        /* Center the image */
+    }
+
+    .productimages {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        overflow: scroll;
+    }
+
+    .productimages img {
+        padding: 5px 10px;
+        border-radius: 12px;
+    }
+
+    .profile-button {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .profile-button button {
+        width: 100%;
+        padding: 15px 10px;
+        margin: 5px 5%;
+        border-radius: 10px;
+        border: 2px solid dodgerblue;
+        background-color: transparent;
+        color: dodgerblue;
+        font-weight: bold;
+        font-size: 15px;
+    }
+</style>
+
+
+<div class="swiperContainer">
+    <div class="swiper-wrapper">
+        <% getAllvendorsItems.forEach(getAllvendorsItem => { %>
+        <div class="swiper-slide"
+            style="background: linear-gradient(#00000084, #000000d8), url(/profile_uploads/<%= getAllvendorsItem.profile_image%>)">
+            <div style="transform: translateY(7.4em); padding: 10px;  width: 110%;">
+                <div class="productimages">
+                    <% 
+                    let vendorProfileImages = JSON.parse(getAllvendorsItem.random_image_url)
+                    vendorProfileImages.forEach(vendorProfileImage => { %>
+                    <img src="/uploads/<%= vendorProfileImage %>" width="100%" height="70px">
+                    <% });%>
+
+                </div>
+                <div>
+                    <div style="padding: 10px;">
+                        <h2><%= getAllvendorsItem.first_name %> <%= getAllvendorsItem.last_name %> </h2>
+                        <div style="display: flex; justify-content: space-between;">
+                            <p style="color: var(--blue); font-weight: bold; padding: 5px 0;">@<a
+                                    href=""><%= getAllvendorsItem.username %></a></p>
+                            <p style="padding: 5px 0;">ID: <%= getAllvendorsItem.user_id %></p>
+                        </div>
+                        <p
+                            style="line-height: 22px; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">
+                            <%= getAllvendorsItem.bio %></p>
+                    </div>
+                    <div class="profile-button">
+                        <button><a href="#">save</a></button>
+                        <button style="border: 2px solid orange; color: orange;"><a href="vendors_profile/<%= getAllvendorsItem.username%>">view profile</a></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }) %>
+    </div>
+
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper('.swiperContainer', {
+        direction: 'horizontal',
+        loop: true,
+        autoplay: {
+            delay: 7000, // 3 seconds delay between slides
+            disableOnInteraction: true,
+        },
+    });
+</script>
+
+<%- include('./layouts/footer.ejs') %>

@@ -1,0 +1,243 @@
+<%- include('../layouts/header.ejs') %>
+<style>
+    body {
+        /* background: url(./images/wrapp.avif); */
+        background: linear-gradient(#ecf7fc, #f4faff);
+    }
+
+    .profile-image img {
+        border-radius: 50%;
+        transform: translateY(20px);
+        border: 2px solid white;
+    }
+
+    .profile-image {
+        text-align: center;
+    }
+
+    #edit-icon {
+        color: #55c8ff;
+        border-radius: 50%;
+        background: #e3f6ff;
+        padding: 5px;
+        transform: translateY(-5px);
+        border: 2px solid white;
+    }
+
+    .profile-outcomes {
+        z-index: 1 !important;
+        position: relative;
+        top: 15px;
+    }
+
+    .profile-outcomes ul {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        margin: 20px 4%;
+        /* background-color: var(--light-white); */
+        list-style-type: none;
+        text-align: center;
+        /* padding: 10px; */
+        border-radius: 15px;
+    }
+
+    .profile-outcomes ul li {
+        padding: 10px 20px;
+        border-radius: 10px;
+        box-shadow: 1px 1px 5px #f3efef;
+        background-color: white;
+    }
+
+    .profile-outcomes ul li p:nth-child(odd) {
+        font-size: 9px;
+    }
+
+    .profile-outcomes ul li p:nth-child(even) {
+        font-size: 10px;
+    }
+
+    .profile-navigations {
+        background-color: white;
+        width: 95%;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        margin: 0 50%;
+        transform: translate(-50%, -50px);
+        box-shadow: 1px 1px 5px #efeeee;
+        padding: 10px;
+        z-index: -1;
+    }
+
+    .profile-navigations ul {
+        list-style-type: none;
+        padding: 5px;
+        margin: 5px 0px;
+    }
+
+    .profile-navigations ul li {
+        display: flex;
+        justify-content: space-between;
+        margin: 5px 0;
+        font-size: 13px;
+    }
+
+    .profile-navigations ul li .material-symbols-outlined {
+        color: #827f7f;
+        font-weight: 100;
+    }
+</style>
+
+<div style="padding: 20px; display: flex; justify-content: space-between;">
+    <a href="/"><span class="material-symbols-outlined">chevron_left</span></a>
+</div>
+
+<div class="profile-container">
+    <img src="/images/waved.png" width="100%" style="border: none; position: absolute;">
+    <div class="profile-image">
+        <img src="/profile_uploads/<%= getProfileItems.profile_image %>" width="100px" height="100px"><br>
+        <a href="/profilePage/profile_info"><p class="material-symbols-outlined" id="edit-icon">tune</p></a>
+        <h3 style="display: flex; align-items: center; justify-content: center;"><%= getProfileItems.first_name%> <%= getProfileItems.last_name%> 
+            <% if (getProfileItems.vendor_status === "approved") { %>
+                <span class="material-symbols-sharp" style="color: #34bdff;;">verified</span>
+            <% } %>
+        </h3>
+        <p style="font-size: 12px; color: #a7a7a7; margin: 3px 0;"><%= getProfileItems.email %></p><br>
+        <p style="font-size: 12px; color: #a7a7a7; margin: 3px 0;">Available Balance</p>
+        <p style="font-size: 25px; margin: 5px 0;"><%- getProfileItems.currency %><%= getProfileItems.balance %></p>
+        <% if (getProfileItems.role === "vendor") { %>
+            <p><a href="/vendors/login"><b style="color: #34bdff;">Vendors Hub </b></a></p>
+        <% }else { %>
+            <p><a href=""><b style="color: #34bdff;">Become a vendor</b></a></p>
+        <% }%>
+    </div>
+
+    <div class="profile-outcomes">
+        <ul>
+            <li>
+                <p><span class="material-symbols-outlined" style="color: var(--green);">groups</span></p>
+                <span><%= totalVendorsItems %></span>
+                <p>vendors</p>
+            </li>
+
+            <li>
+                <p><span class="material-symbols-sharp" style="color: var(--blue);">shopping_bag</span></p>
+                <span><%= getTotalCartItems %></span>
+                <p>carts</p>
+            </li>
+
+            <li>
+                <p><span class="material-symbols-sharp" style="color: #ff4444">favorite</span></p>
+                <span>536</span>
+                <p>Favourite</p>
+            </li>
+
+            <li>
+                <p><span class="material-symbols-outlined" style="color: orange;">share_reviews</span></p>
+                <span>536</span>
+                <p>referals</p>
+            </li>
+
+        </ul>
+    </div>
+
+    <div class="profile-navigations"><br><br><br>
+        <span style="font-size: 12px; color: #a7a7a7;">Account Settings</span>
+        <ul>
+            <a href="/profilePage/profile_info">
+                <li>
+                    <span>Personal Information</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="">
+                <li>
+                    <span>Notification</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="/profilePage/vendorsList">
+                <li>
+                    <span>Vendors</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+        </ul>
+
+        <span style="font-size: 12px; color: #a7a7a7;">Security </span>
+        <ul>
+            <a href="/profilePage/changePassword">
+                <li>
+                    <span>Change Password</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <!-- <a href="">
+                <li>
+                    <span>Payment</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a> -->
+            <a href="/profilePage/login_alert">
+                <li>
+                    <span>Login Alert</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="#">
+                <li>
+                    <span>IP Address: </span>
+                    <span><%= getProfileItems.ip_address %></span>
+                </li>
+            </a>
+        </ul>
+
+        <span style="font-size: 12px; color: #a7a7a7;">Help & Support </span>
+        <ul>
+            <a href="/profilePage/privacy_policy">
+                <li>
+                    <span>Privacy Policy</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="/profilePage/terms">
+                <li>
+                    <span>Terms & Condition</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="/profilePage/faq">
+                <li>
+                    <span>FAQ & Help</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+            <a href="/profilePage/report">
+                <li>
+                    <span>Report</span>
+                    <span class="material-symbols-outlined">chevron_right</span>
+                </li>
+            </a>
+        </ul>
+
+        <style>
+            .youtube-subscribe-btn {
+                text-align: center;
+                margin-top: 50px;
+            }
+        </style>
+        <!-- YouTube Subscribe Button -->
+        <div class="youtube-subscribe-btn">
+            <div class="g-ytsubscribe" data-channelid="UC2LV8AUyNoAFRuF_7kb-wlQ" data-layout="full" data-count="default"></div>
+        </div>
+    
+        <script src="https://apis.google.com/js/platform.js"></script>
+        
+    </div>
+    <p style="color: #ff4444; text-align: center; transform: translateY(-20px);;">
+       <a href="/profilePage/logout"> <span class="material-symbols-outlined" style="font-size: 14px;">power_settings_new</span><br>
+        <span style="font-size: 13px;">Logout</span></a>
+    </p>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

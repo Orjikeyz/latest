@@ -1,0 +1,199 @@
+<%- include('./layouts/header.ejs') %>
+
+<style>
+    .pending {
+        background-color: #ffa60060;
+        padding: 3px 5px;
+        border-radius: 5px;
+        margin: 5px 0;
+        color: orange;
+        font-size: 12px;
+    }
+
+    .active1 {
+        background-color: #03e18060;
+        padding: 3px 10px;
+        margin: 5px 0;
+        border-radius: 5px;
+        color: #09a167;
+        font-size: 12px;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 300px;
+        text-align: center;
+        position: fixed;
+        top: 20vh;
+        left: 50%;
+        transform: translate(-50%, 0);
+    }
+
+    .close {
+        color: red;
+        float: right;
+        font-size: 28px;
+        cursor: pointer;
+    }
+
+    .close:hover {
+        color: darkred;
+    }
+</style>
+
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header d-flex justify-content-between align-items-center">
+            <div class="page-title">
+                <h4>Product List</h4>
+                <h6>Manage your products</h6>
+            </div>
+            <ul class="table-top-head d-flex align-items-center">
+                <li><a data-bs-toggle="tooltip" title="PDF"><img src="/vendorAssets/images/pdf.svg" alt="PDF"></a></li>
+                <li><a data-bs-toggle="tooltip" title="Excel"><img src="/vendorAssets/images/excel.svg" alt="Excel"></a></li>
+                <li><a data-bs-toggle="tooltip" title="Print"><i data-feather="printer"></i></a></li>
+                <li><a data-bs-toggle="tooltip" title="Refresh"><i data-feather="rotate-ccw"></i></a></li>
+                <li><a data-bs-toggle="tooltip" title="Collapse" id="collapse-header"><i data-feather="chevron-up"></i></a></li>
+            </ul>
+            <div class="page-btn">
+                <a href="add-product" class="btn btn-added">
+                    <i data-feather="plus-circle" class="me-2"></i>Add New Product
+                </a>
+            </div>
+        </div>
+
+        <div class="card table-list-card">
+            <div class="card-body">
+                <div class="table-responsive product-list">
+                    <table class="table datanew">
+                        <thead>
+                            <tr>
+                                <th class="no-sort"><input type="checkbox" id="select-all"></th>
+                                <th>Product</th>
+                                <th>Product ID</th>
+                                <th>Category</th>
+                                <th>Description</th>
+                                <th>Price</th>
+                                <th>Views</th>
+                                <th>Status</th>
+                                <th>Created at</th>
+                                <th class="no-sort">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% allProductItems.forEach(product => { 
+                                let productImage = JSON.parse(product.image_urls);
+                            %>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>
+                                    <div class="productimgname">
+                                        <a href="javascript:void(0);" onclick="showProductDetails(<%= JSON.stringify(product) %>)" class="product-img stock-img">
+                                            <img src="/uploads/<%= productImage[0] %>" alt="product">
+                                        </a>
+                                        <a href="javascript:void(0);"><%= product.name %></a>
+                                    </div>
+                                </td>
+                                <td>#<%= product.ref_id %></td>
+                                <td><%= product.category %></td>
+                                <td style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden; max-width: 200px;">
+                                    <p style="margin: 0;"><%= product.description %></p>
+                                </td>
+                                <td><%= product.currency %><%= product.price %></td>
+                                <td><%= product.view_count %></td>
+                                <td class="text-center">
+                                    <% if (product.status === "active") { %>
+                                        <span class="active1">Active</span>
+                                    <% } else { %>
+                                        <span class="pending">Pending</span>
+                                    <% } %>
+                                </td>
+                                <td><%= new Date(product.updated_at).toLocaleString() %></td>
+                                <td class="action-table-data">
+                                    <div class="edit-delete-action">
+                                        <a href="edit-product.html" class="me-2 p-2">
+                                            <i data-feather="edit"></i>
+                                        </a>
+                                        <a href="javascript:void(0);" class="confirm-text p-2">
+                                            <i data-feather="trash-2"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">Close</span>
+        <h4 id="modalProductName"></h4>
+        <img id="modalProductImage" src="" alt="Product Image" />
+        <ul id="model-image-ul" style="display: flex; margin: 0 auto; padding: 0;"></ul>
+    </div>
+</div>
+
+<script>
+    function showProductDetails(product) {
+        document.getElementById("modalProductName").innerText = product.name;
+        document.getElementById("modalProductImage").src = '/uploads/' + JSON.parse(product.image_urls)[0];
+
+        let modelImages = JSON.parse(product.image_urls);
+        let imageList = document.getElementById("model-image-ul");
+        imageList.innerHTML = '';
+        modelImages.forEach(image => {
+            imageList.innerHTML += `<li style="padding: 5px; border: 1px solid #d5dbe1; margin: 0 5px;">
+                                      <img src="/uploads/${image}" width="50" height="50" class="model-image-li" style="cursor:pointer;">
+                                    </li>`;
+        });
+
+        document.querySelectorAll(".model-image-li").forEach(img => {
+            img.addEventListener("click", function() {
+                document.getElementById("modalProductImage").src = img.src;
+            });
+        });
+
+        document.getElementById("productModal").style.display = "block";
+    }
+
+    function closeModal() {
+        document.getElementById("model-image-ul").innerHTML = "";
+        document.getElementById("productModal").style.display = "none";
+    }
+</script>
+
+<script src="/vendorAssets/js/jquery-3.7.1.min.js"></script>
+<script src="/vendorAssets/js/feather.min.js"></script>
+<script src="/vendorAssets/js/jquery.slimscroll.min.js"></script>
+<script src="/vendorAssets/js/jquery.dataTables.min.js"></script>
+<script src="/vendorAssets/js/dataTables.bootstrap5.min.js"></script>
+<script src="/vendorAssets/js/bootstrap.bundle.min.js"></script>
+<script src="/vendorAssets/js/summernote-bs4.min.js"></script>
+<script src="/vendorAssets/js/select2.min.js"></script>
+<script src="/vendorAssets/js/moment.min.js"></script>
+<script src="/vendorAssets/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/vendorAssets/js/bootstrap-tagsinput.js"></script>
+<script src="/vendorAssets/js/sweetalert2.all.min.js"></script>
+<script src="/vendorAssets/js/theme-script.js"></script>
+<script src="/vendorAssets/js/script.js"></script>
+<script src="/vendorAssets/js/rocket-loader.min.js" defer></script>
+</body>
+</html>

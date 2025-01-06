@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200..1000;1,200..1000&display=swap"
+        rel="stylesheet">
+
+    <!-- Slick Slider Theme (Optional) -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@24,100,1,0" />
+    <!-- Slick Slider JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary: "";
+        --secondary: "";
+        --text: #565555;
+        --light-white: white;
+        --blue: dodgerblue;
+        --green: #21d681;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    body {
+        background: #f9f7f7;
+        font-family: sans-serif;
+        color: var(--text);
+    }
+
+    nav {
+        padding: 10px;
+        color: var(--text);
+    }
+
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav ul li {
+        display: flex;
+        align-items: center;
+    }
+
+    nav ul li img {
+        border-radius: 100%;
+    }
+
+    nav ul li .alerm {
+        background-color: var(--light-white);
+        padding: 10px;
+        border-radius: 100%;
+    }
+
+    .search-container {
+        padding: 10px;
+    }
+
+    .search-container input {
+        background-color: var(--light-white);
+        padding: 15px 10px;
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        box-shadow: 1px 1px 5px #e2e2e2;
+    }
+
+    .search-container .search-icon {
+        position: absolute;
+        padding: 8px 10px;
+        /* color: #8b8888; */
+        background: var(--blue);
+        color: white;
+        border-radius: 6px;
+        right: 15px;
+        transform: translateY(5px);
+        font-size: 18px;
+    }
+
+    .advert-container {
+        padding: 10px;
+    }
+
+    .advert-container .advert-container-items {
+        padding: 20px;
+        background: linear-gradient(#e4e4e491, #e4e4e43a), url(./images/a-0270.png);
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 1px 1px 5px #dfdfdf;
+    }
+
+    .advert-container .advert-container-items button {
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .products-container {
+        padding: 10px 0px;
+    }
+
+    .products-container ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .products-container ul li button {
+        padding: 5px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .products-item-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 10px;
+    }
+
+    .products-item-container article {
+        background-color: white;
+        border-radius: 5px;
+        padding: 5px;
+        overflow: hidden;
+        box-shadow: 1px 1px 5px #efeeee;
+        margin: 3px 2%;
+    }
+
+    .products-item-container article p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .products-item-container button {
+        padding: 10px;
+        width: 100%;
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+        border: none;
+        outline: none;
+        background-color: #65b1fd;
+        color: var(--light-white);
+    }
+
+    .products-item-container a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .detail-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        width: 100%;
+        top: 0;
+        background: var(--light-white);
+        padding: 10px
+    }
+
+    .detail-list-button {
+        padding: 5px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .vendor-container-list {
+        padding: 10px;
+        display: grid;
+    }
+
+    .vendor-container-list article {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(#ffffff8f, #ffffff24), url(./images/wrapp.avif);
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px #ededed;
+        /* border-bottom: 2px solid var(--blue); */
+        overflow: hidden;
+        margin: 5px 0;
+    }
+
+    .vendor-container-list article p {
+        margin: 7px 0;
+        font-size: 12px;
+    }
+
+    .vendor-container-list article button {
+        padding: 5px 15px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        font-size: 11px;
+        border-radius: 3px;
+    }
+
+    .vendor-container-list article img {
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .pending {
+        background-color: #ffa60060;
+        padding: 3px 5px;
+        margin: 5px 0;
+        color: orange;
+        font-size: 12px;
+    }
+
+    .active {
+        background-color: #03e18060;
+        padding: 3px 5px;
+        margin: 5px 0;
+        color: #09a167;
+        font-size: 12px;
+    }
+
+    footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    footer ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style-type: none;
+        background: var(--light-white);
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+<style>
+    body {
+        background: url(./images/wrapp.avif);
+        background: white;
+    }
+
+    .profile-container .profile-image {
+        text-align: center;
+    }
+
+    .profile-container .profile-image img {
+        border-radius: 100%;
+        border: 3px solid white;
+        outline: 1px solid #88c8f765;
+    }
+
+    .photo_camera {
+        margin: 0 50%;
+        transform: translateX(-50%);
+        border-radius: 100%;
+        transform: translate(20px, -25px);
+        border: 3px solid white;
+        outline: 1px solid #88c8f765;
+        background-color: white;
+        color: #5655559d;
+        position: absolute;
+    }
+
+    .form-container form label {
+        font-size: 12px;
+        margin: 10px 0;
+    }
+
+    .form-container form {
+        padding: 10px;
+        font-family: Mulish;
+    }
+
+    .form-container form input,
+    textarea {
+        display: block;
+        padding: 18px 30px;
+        border-radius: 10px;
+        border: 1px solid #1933642e;
+        outline: none;
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .form-container form button {
+        width: 100%;
+        padding: 18px 10px;
+        border-radius: 10px;
+        border: 1px solid #1933642e;
+        outline: none;
+        background-color: #193364;
+        color: orange;
+        font-size: 15px;
+        font-weight: bolder;
+    }
+</style>
+
+<div style="padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+    <a href="/profilePage/profile"><span class="material-symbols-outlined">chevron_left</span></a>
+    <span><b>Edit Profile</b></span>
+    <span></span>
+</div>
+
+<div class="profile-container">
+    <div class="profile-image">
+        <img src="../images/istockphoto-1072528872-612x612.jpg" width="120px" height="120px" loading="lazy">
+    </div>
+    <span class="material-symbols-outlined photo_camera">photo_camera</span>
+
+    <div class="form-container">
+        <form action="" method="post">
+            <label for="">First Name</label>
+            <input type="text" name="first_name" required>
+
+            <label for="">Last Name</label>
+            <input type="text" name="last_name" required>
+
+            <label for="">Email</label>
+            <input type="text" name="first_name" required>
+
+            <label for="">Username</label>
+            <input type="text" name="username" readonly required>
+
+            <label for="">Address</label>
+            <input type="text" name="address" required>
+
+            <label for="">City</label>
+            <input type="text" name="city" required>
+
+            <label for="">State</label>
+            <input type="text" name="first_name" required>
+
+            <label for="">Country</label>
+            <input type="text" name="first_name" required>
+
+            <label for="">Tel</label>
+            <input type="text" name="tel" required>
+
+            <label for="">Bio</label>
+            <textarea name="bio" id=""></textarea>
+
+            <label for="">Business Name</label>
+            <input type="text" name="business_name" required>
+
+            <label for="">Business Address</label>
+            <input type="text" name="business_address" required>
+
+            <button type="button">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+
+<br><br><br><br>
+<footer>
+    <ul>
+        <li>
+            <p class="material-symbols-outlined">dashboard</p>
+            <p style="font-size: 10px;">Home</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">category</p>
+            <p style="font-size: 10px;">Category</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">shopping_bag</p>
+            <p style="font-size: 10px;">Cart</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">rewarded_ads</p>
+            <p style="font-size: 10px;">Earn</p>
+        </li>
+        <li>
+            <p class="material-symbols-outlined">admin_panel_settings</p>
+            <p style="font-size: 10px;">Profile</p>
+        </li>
+    </ul>
+</footer>
+
+</body>
+
+</html>

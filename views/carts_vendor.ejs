@@ -1,0 +1,113 @@
+<%- include('./layouts/header.ejs') %>
+
+<style>
+    .vendor-container ul {
+        display: flex;
+        justify-content: space-between;
+        list-style-type: none;
+        align-items: center;
+        background-color: var(--light-white);
+        padding: 10px;
+        margin: 5px 0;
+    }
+    .vendor-container ul li:nth-child(1) {
+        display: flex;
+        align-items: center;
+    }
+    .vendor-container {
+        padding: 10px;
+    }
+</style>
+
+<div style="padding: 10px; display: flex; justify-content: space-between;">
+    <a href="/"><span class="material-symbols-outlined">keyboard_arrow_left</span></a>
+    <h5 style="margin: 10px 15px;">My Cart</h5>
+</div>
+
+<!-- Description Section -->
+<!-- Trigger button to open the modal -->
+
+
+<!-- Modal Structure -->
+<div id="cartOverviewModal" class="modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0, 0, 0, 0.5);">
+    <div class="modal-content" style="background-color: #fff; margin: 15% auto; padding: 20px; border: 1px solid #888; width: 80%; max-width: 500px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <span class="closeBtn" style="color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer;">&times;</span>
+        <div style="padding: 20px; background-color: #f9f9f9; border-radius: 8px;">
+            <p style="font-size: 16px; color: #333; line-height: 1.6; margin-bottom: 10px;">
+                <strong style="font-size: 18px; color: #000;">Your Cart Overview</strong>
+            </p>
+            <p style="font-size: 14px; color: #555; margin-bottom: 15px;">
+                Here's a summary of the items you’ve added, grouped by vendor. Each section below displays the products selected from each vendor, 
+                along with the quantity and total price. You can manage each vendor’s cart individually by clicking on the "View Cart" button. 
+                This ensures a smooth checkout process.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for Modal Functionality -->
+<script>
+    // Get modal element
+    var modal = document.getElementById("cartOverviewModal");
+    // Get open modal button
+    var openModalBtn = document.getElementById("openModalBtn");
+    // Get close button
+    var closeBtn = document.getElementsByClassName("closeBtn")[0];
+
+    // Listen for open click
+    setTimeout(() => {
+        modal.style.display = "block";
+    }, 6000);
+    // Listen for close click
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // Listen for outside click
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+<div class="vendor-container">
+    <% if (getCartVendorsItems.length <= 0) { %>
+        <img src="/images/empty_cart.gif" id="empty_cart_image" width="100%" style="display: block;">
+        <style>
+            body {
+                background-color: white !important;
+            }
+        </style>
+    <% } else {
+        getCartVendorsItems.forEach(getCartVendorsItem => { %>
+        <ul>
+            <li>
+                <div style="background-color: #ececec; border-radius: 5px;">
+                    <img src="/profile_uploads/<%= getCartVendorsItem.profile_image %>" width="50px" height="50px">
+                </div>
+                <p style="margin: 0 5px;">
+                    <p style="font-size: 11px; width: 100px;">
+                        <%= getCartVendorsItem.first_name %> <%= getCartVendorsItem.last_name %>
+                        <span style="font-size: 11px; text-overflow: ellipsis; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; width: 70px;">
+                            <span style="color: var(--blue);">@<a href="/vendors_profile/<%= getCartVendorsItem.posted_by %>"><%= getCartVendorsItem.posted_by %></a></span>
+                        </span>
+                    </p>
+                </p>
+            </li>
+            <li style="font-size: 10px; line-height: 20px; transform: translateX(-20px);">
+                <p>Items: <b><%= getCartVendorsItem.total_posted_by %></b></p>
+                <p>Qty: <b><%= getCartVendorsItem.total_quantity %></b></p>
+                <p>Prices: <b><%- getCartVendorsItem.currency %><%= getCartVendorsItem.total_price %></b></p>
+            </li>
+            <li>
+                <a href="/cart/<%= getCartVendorsItem.posted_by %>" style="background: var(--blue); padding: 5px 10px; color: var(--light-white); border-radius: 3px; font-size: 11px;">
+                    view cart
+                </a>
+            </li>
+        </ul>
+    <% }) } %>
+</div>
+
+<%- include('./layouts/footer.ejs') %>

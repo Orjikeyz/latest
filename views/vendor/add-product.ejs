@@ -1,0 +1,289 @@
+<%- include('./layouts/header.ejs') %>
+<div class="page-wrapper">
+    <div class="content">
+        <div class="page-header">
+            <div class="add-item d-flex">
+                <div class="page-title">
+                    <h4>New Product</h4>
+                    <h6>Create new product</h6>
+                </div>
+            </div>
+            <ul class="table-top-head">
+                <li>
+                    <div class="page-btn">
+                        <a href="product-list.html" class="btn btn-secondary"><i data-feather="arrow-left"
+                                class="me-2"></i>Back to Product</a>
+                    </div>
+                </li>
+                <li>
+                    <a data-bs-toggle="tooltip" data-bs-placement="top" title="Collapse" id="collapse-header"><i
+                            data-feather="chevron-up" class="feather-chevron-up"></i></a>
+                </li>
+            </ul>
+        </div>
+
+        <form action="add-product.html">
+            <div class="card">
+                <div class="card-body add-product pb-0">
+                    <div class="accordion-card-one accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <div class="accordion-header" id="headingOne">
+                                <div class="accordion-button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                                    aria-controls="collapseOne">
+                                    <div class="addproduct-icon">
+                                        <h5><i data-feather="info" class="add-info"></i><span>Product
+                                                Information</span></h5>
+                                        <a href="javascript:void(0);"><i data-feather="chevron-down"
+                                                class="chevron-down-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12 col-12">
+                                            <div class="mb-3 add-product">
+                                                <label class="form-label">Product Name</label>
+                                                <input type="text" name="product-name" id="product-name"
+                                                    class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    sekec
+                                    <div class="addservice-info">
+                                        <div class="row">
+                                            <div class="col-lg-4 col-sm-6 col-12">
+                                                <div class="mb-3 add-product">
+                                                    <div class="add-newplus">
+                                                        <label class="form-label">Category</label>
+                                                    </div>
+                                                    <select class="select" name="category" id="category">
+                                                        <option value="">Select category</option>
+                                                        <% for( let i = 0; i < categoryItems.length; i++ ) { %>
+                                                        <option value="<%= categoryItems[i].name %>">
+                                                            <%= categoryItems[i].name %></option>
+                                                        <% } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-sm-6 col-12">
+                                                <div class="mb-3 add-product">
+                                                    <label class="form-label">Price</label>
+                                                    <input type="text" name="price" id="price" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="input-blocks summer-description-box transfer mb-3">
+                                            <label>Description</label>
+                                            <textarea class="form-control h-100" name="description" id="description"
+                                                rows="5"></textarea>
+                                            <p class="mt-1">Maximum 60 Characters</p>
+                                        </div>
+                                    </div>
+
+                                    <span><b>Image Upload</b> (Maximum 6 Items)</span>
+                                    <div id="collapseThree" class="accordion-collapse collapse show"
+                                        aria-labelledby="headingThree" data-bs-parent="#accordionExample3">
+                                        <div class="accordion-body">
+                                            <div class="text-editor add-list add">
+                                                <div class="col-lg-12">
+                                                    <div class="add-choosen">
+                                                        <div class="input-blocks">
+                                                            <div class="image-upload">
+                                                                <input type="file" multiple id="image-input"
+                                                                    accept="image/*">
+                                                                <div class="image-uploads">
+                                                                    <i data-feather="plus-circle"
+                                                                        class="plus-down-add me-0"></i>
+                                                                    <h4>Add Images</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="image-preview"
+                                                            style="display: flex; flex-wrap: wrap; flex-direction: row;">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                        <div class="btn-addproduct mb-4">
+                            <button type="button" class="btn btn-cancel me-2">Cancel</button>
+                            <button type="button" class="btn btn-submit">Save Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>
+</div>
+
+
+<script>
+    let image_input = document.getElementById("image-input")
+    let btn_submit = document.querySelector(".btn-submit")
+    let imgaePreview = document.querySelector('.image-preview')
+    let removeproduct = document.querySelectorAll(".removeproduct")
+
+    let product_name = document.getElementById("product-name")
+    let category = document.getElementById("category")
+    let price = document.getElementById("price")
+    let description = document.getElementById("description")
+
+    // File size
+    const maxSizeMB = 6;
+    const maxSizeBytes = maxSizeMB * 1024 * 1024;
+    let selectedImages = []; // Store selected images
+    let imageUpload = []
+
+    image_input.addEventListener("change", function () {
+        imageUploadVerification()
+    })
+
+    btn_submit.addEventListener("click", function () {
+        if (product_name.value === "" || category.value === "" || price.value === "" || description.value ===
+            "") {
+            alertNotification("error", `Inputs cannot be empty`)
+            return;
+        } else if (!validatePriceInput(price.value)) {
+            return;
+        } else if (!imageUploadVerification()) {
+            return;
+        } else {
+            imageUpload = imageUploadVerification()
+
+            console.log(imageUpload)
+
+            let url = "/vendors/add-product";
+
+            // Create FormData
+            let formData = new FormData();
+            formData.append("name", product_name.value);
+            formData.append("category", category.value);
+            formData.append("price", price.value);
+            formData.append("description", description.value);
+
+            // Append each image file to FormData
+            // imageUpload.forEach((file, index) => {
+            //     formData.append(`images`, file);
+            // });
+
+            for (let i = 0; i < imageUpload.length; i++) {
+                formData.append("images", imageUpload[i])
+                console.log(imageUpload[i])
+            }
+
+            fetch(url, {
+                    method: "POST",
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "error") {
+                        alertNotification("error", `${data.message}`)
+                    } else {
+                        alertNotification("success", `${data.message}`)
+                    }
+                }).catch(error => {
+                    console.error("Error:", error);
+                    alertNotification("error", `Fetch request failed: ${error.message}`);
+                })
+        }
+
+    })
+
+    function validatePriceInput(input) {
+        // Trim whitespace and remove commas if any
+        input = input.trim().replace(/,/g, '');
+
+        // Updated regex to allow unlimited whole number digits with up to two decimal places
+        const priceRegex = /^\d+(\.\d{0,2})?$/;
+
+        if (!priceRegex.test(input)) {
+            alertNotification("error", `Invalid format. Please enter a valid amount with up to two decimal places.`)
+            return false;
+        }
+
+        // Parse the input as a float to ensure it’s a valid number
+        const price = parseFloat(input);
+        if (isNaN(price) || price < 0) {
+            alertNotification("error", `Please enter a positive amount.`)
+            return false;
+        }
+        return true;
+
+    }
+
+    function imageUploadVerification() {
+        let imageFiles = image_input.files
+        if (imageFiles.length === 0) {
+            alertNotification("error", `Image Upload cannot be empty`)
+            return false;
+        }
+
+        for (let i = 0; i < imageFiles.length; i++) {
+            console.log(imageFiles[i].size, maxSizeBytes)
+            if (imageFiles.length > 6) {
+                alertNotification("error", `Image exceed more than 5 items`)
+                return false
+            } else if (imageFiles[i].size > maxSizeBytes) {
+                console.log(imageFiles[i].size, "____")
+                alertNotification("error", `File size should not exceed ${maxSizeMB}MB `)
+                return false;
+            } else {
+                selectedImages = Array.from(image_input.files)
+
+                // Clear previous image previews
+                imgaePreview.innerHTML = "";
+
+                for (let ii = 0; ii < selectedImages.length; ii++) {
+                    console.log(i)
+                    imgaePreview.innerHTML += `
+                    <div class="phone-img" style="width: 100px; height: 50px; margin: 0 5px; transform: translateY(px); overflow: hidden; text-align: center">
+                        <img src="${URL.createObjectURL(selectedImages[ii])}" alt="image" style='height: 10vh'>
+                        <a href="javascript:void(0);" class="removeproduct"><i data-feather="x" class="x-square-add remove-product"></i></a>
+                    </div>
+                `
+                }
+
+                removeImageUpload()
+                return selectedImages
+            }
+        }
+
+        function removeImageUpload() {
+            let removeproduct = document.querySelectorAll(".removeproduct")
+            for (let i = 0; i < removeproduct.length; i++) {
+                removeproduct[i].addEventListener("click", function () {
+                    removeproduct[i].parentElement.remove()
+                    selectedImages.splice(i, 1)
+                    console.log(removeproduct[i].parentElement.remove())
+                })
+            }
+        }
+
+
+
+    }
+</script>
+
+<%- include('./layouts/footer.ejs') %>
+
+
+</body>
+
+</html>

@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" />
+
+    <!-- Slick Slider Theme (Optional) -->
+    <link rel="stylesheet" type="text/css"
+        href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css" />
+
+    <!-- Slick Slider JS -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --primary: "";
+        --secondary: "";
+        --text: #565555;
+        --light-white: white;
+        --blue: dodgerblue;
+        --green: #21d681;
+    }
+
+    body {
+        background: #f9f7f7;
+        font-family: sans-serif;
+        color: var(--text);
+    }
+
+    nav {
+        padding: 10px;
+        color: var(--text);
+    }
+
+    nav ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    nav ul li {
+        display: flex;
+        align-items: center;
+    }
+
+    nav ul li img {
+        border-radius: 100%;
+    }
+
+    nav ul li .alerm {
+        background-color: var(--light-white);
+        padding: 10px;
+        border-radius: 100%;
+    }
+
+    .search-container {
+        padding: 10px;
+    }
+
+    .search-container input {
+        background-color: var(--light-white);
+        padding: 15px 10px;
+        width: 100%;
+        border: none;
+        outline: none;
+        border-radius: 3px;
+        box-shadow: 1px 1px 5px #e2e2e2;
+    }
+
+    .search-container .search-icon {
+        position: absolute;
+        padding: 8px 10px;
+        /* color: #8b8888; */
+        background: var(--blue);
+        color: white;
+        border-radius: 6px;
+        right: 15px;
+        transform: translateY(5px);
+        font-size: 18px;
+    }
+
+    .advert-container {
+        padding: 10px;
+    }
+
+    .advert-container .advert-container-items {
+        padding: 20px;
+        background: linear-gradient(#e4e4e491, #e4e4e43a), url(./images/a-0270.png);
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 1px 1px 5px #dfdfdf;
+    }
+
+    .advert-container .advert-container-items button {
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .products-container {
+        padding: 10px 0px;
+    }
+
+    .products-container ul {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .products-container ul li button {
+        padding: 5px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .products-item-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 10px;
+    }
+
+    .products-item-container article {
+        background-color: white;
+        border-radius: 5px;
+        padding: 5px;
+        overflow: hidden;
+        box-shadow: 1px 1px 5px #efeeee;
+        margin: 3px 2%;
+    }
+
+    .products-item-container article p {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+    }
+
+    .products-item-container button {
+        padding: 10px;
+        width: 100%;
+        border-top-left-radius: 100px;
+        border-top-right-radius: 100px;
+        border: none;
+        outline: none;
+        background-color: #65b1fd;
+        color: var(--light-white);
+    }
+
+    .products-item-container a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    .detail-list {
+        list-style-type: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        width: 100%;
+        top: 0;
+        background: var(--light-white);
+        padding: 10px
+    }
+
+    .detail-list-button {
+        padding: 5px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        border-radius: 3px;
+    }
+
+    .vendor-container-list {
+        padding: 10px;
+        display: grid;
+    }
+
+    .vendor-container-list article {
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: linear-gradient(#ffffff8f, #ffffff24), url(./images/wrapp.avif);
+        border-radius: 5px;
+        box-shadow: 1px 1px 5px #ededed;
+        /* border-bottom: 2px solid var(--blue); */
+        overflow: hidden;
+        margin: 5px 0;
+    }
+
+    .vendor-container-list article p {
+        margin: 7px 0;
+        font-size: 12px;
+    }
+
+    .vendor-container-list article button {
+        padding: 5px 15px;
+        border: none;
+        outline: none;
+        background-color: var(--blue);
+        color: var(--light-white);
+        font-size: 11px;
+        border-radius: 3px;
+    }
+
+    .vendor-container-list article img {
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .pending {
+        background-color: #ffa60060;
+        padding: 3px 5px;
+        margin: 5px 0;
+        color: orange;
+        font-size: 12px;
+    }
+
+    .active {
+        background-color: #03e18060;
+        padding: 3px 5px;
+        margin: 5px 0;
+        color: #09a167;
+        font-size: 12px;
+    }
+
+    footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+    }
+
+    footer ul {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        list-style-type: none;
+        background: var(--light-white);
+        padding: 10px;
+        text-align: center;
+    }
+</style>
+
+<style>
+    .product-content {
+        padding: 10px;
+        line-height: 30px;
+    }
+
+    .rating-icon {
+        display: flex;
+        margin: 10px 0;
+        color: #ffa500;
+        align-items: center;
+    }
+
+    .product-text-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .addMinus {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .addMinus span {
+        padding: 5px 10px;
+        font-size: 20px;
+        margin: 5px;
+        font-weight: bold;
+        box-shadow: 1px 1px 5px #ededed;
+        border-radius: 3px;
+        background-color: var(--light-white);
+    }
+
+    .product-description {
+        background-color: var(--light-white);
+        padding: 5px;
+        border-radius: 5px;
+        margin: 10px 0;
+    }
+
+    .orderBtn {
+        width: 100%;
+        padding: 15px 10px;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+        margin: 5px 0;
+        background-color: var(--green);
+        color: var(--light-white);
+    }
+
+    .search-container {
+        display: none;
+    }
+</style>
+
+<body>
+    <div class="product-container">
+        <div class="product-images">
+            <img src="./images/b-product2c816.jpg" width="100%" height="100px">
+            <img src="./images/female.png" width="100%">
+            <img src="./images/smartwatch2_grandea5eb.jpg" width="100%">
+        </div>
+        <div class="product-content">
+            <div class="product-text-content">
+                <article>
+                    <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut odit</h3>
+                    <div class="rating-icon">
+                        <span class="material-icons">star</span>
+                        <span class="material-icons">star</span>
+                        <span class="material-icons">star</span>
+                        <span class="material-icons">star</span>
+                        <span class="material-icons">star</span>
+                        <span style="padding: 0 10px; color: var(--text);">(23)</span>
+                    </div>
+                    <p style="font-size: 25px; margin: 15px 0;">₦766.50</p>
+                </article>
+                <article>
+                    <span class="material-icons"
+                        style="color: #ffa500; border: 1px solid #ffa500; border-radius: 100%; padding: 14px; transform: translateX(40px);">bookmark</span>
+                    <div class="addMinus">
+                        <span style="padding: 5px 13px;">-</span>
+                        <span>10</span>
+                        <span>+</span>
+                    </div>
+                </article>
+            </div>
+            <div class="product-properties">
+                <div class="product-description">
+                    <br>
+                    <h3>Description</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nostrum, soluta expedita. Ducimus quo
+                        animi, iste autem natus iure eos quas architecto accusamus, similique soluta nesciunt sit sequi
+                        repudiandae. Quidem, dolore! Unde, sequi. Ducimus ad ipsum velit accusantium unde, nam dolore
+                        quis, qui inventore cumque assumenda dolor? Alias dicta consequatur soluta iste natus molestiae,
+                        error facilis minus praesentium expedita aperiam explicabo repellat saepe, impedit dignissimos?
+                        Quas est atque soluta praesentium sed delectus sit neque nam labore et ipsam vero, culpa
+                        temporibus. Impedit aspernatur minima illo tenetur nobis, accusamus nam reprehenderit. Numquam
+                        voluptatum recusandae unde, impedit sed explicabo ad iste, quo rem facere totam corporis est,
+                        quod velit sapiente! Veritatis, animi nemo aperiam ipsam quisquam, vitae provident numquam quia
+                        voluptatem laudantium illum error odit non reiciendis, exercitationem inventore ullam eaque
+                        ratione totam dicta? Facere commodi praesentium nemo veniam voluptatem ipsa illo eum alias
+                        libero beatae, quos, amet necessitatibus eaque. Earum optio nulla fugiat inventore architecto
+                        deleniti dolorem aspernatur velit iste fugit omnis nihil exercitationem necessitatibus, repellat
+                        incidunt ut itaque voluptatum, obcaecati a animi ipsa perferendis voluptates? Velit laboriosam
+                        ex minus dignissimos doloremque eligendi accusamus, voluptates ut officiis laudantium.
+                        Exercitationem et atque, distinctio quas ut aut animi cum nobis vel adipisci sunt odit.</p>
+                </div>
+                <button class="orderBtn">Whatsapp Order</button>
+                <button class="orderBtn" style="background: #ffa500;">Add To Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br>
+    <footer>
+        <ul>
+            <li>
+                <p class="material-symbols-outlined">dashboard</p>
+                <p style="font-size: 10px;">Home</p>
+            </li>
+            <li>
+                <p class="material-symbols-outlined">category</p>
+                <p style="font-size: 10px;">Category</p>
+            </li>
+            <li>
+                <p class="material-symbols-outlined">shopping_bag</p>
+                <p style="font-size: 10px;">Cart</p>
+            </li>
+            <li>
+                <p class="material-symbols-outlined">rewarded_ads</p>
+                <p style="font-size: 10px;">Earn</p>
+            </li>
+            <li>
+                <p class="material-symbols-outlined">admin_panel_settings</p>
+                <p style="font-size: 10px;">Profile</p>
+            </li>
+        </ul>
+    </footer>
+
+    <script>
+        $(document).ready(function () {
+            $('.product-images').slick({
+                autoplay: true,
+                autoplaySpeed: 2000,
+                dots: false,
+                arrows: false,
+                infinite: true,
+                speed: 1000,
+                slidesToShow: 1,
+                slidesToScroll: 1
+            });
+        });
+    </script>
+</body>
+
+</html>
